@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block nav %}
+    <li class="active"><a href="/">Home</a></li>
+    {% include 'appServerCatChooser.html' %}
+    <li><a href="updateScripts">{{_("updateGameScripts")}}</a></li>       
+    <li><a href="backupDb">{{_("backupDatabase")}}</a></li>
+{% endblock %}
+
+{% block head %}
+<style type="text/css">       
+    .table tbody tr.stop td { background-color: gray; }
+</style>
+<script type="text/javascript">   
+    $(function() {
+        $('#vindicateDlg').on('show', function() {            
+            var link = $(this).data('link'),
+                removeBtn = $(this).find('.danger'),
+                href = removeBtn.attr('href');               
+                removeBtn.attr('href', link);            
+        });
+
+        $('.confirm-vindicate').click(function(e) {
+            e.preventDefault();
+            
+            var link = $(this).data('link');
+            $('#vindicateDlg').data('link', link).modal('show');
+        });
+    });    
+</script>
+{% endblock %}
+
+{% block main %}
+    <!-- 显示错误日志的模态对话框 -->
+    <div class="modal hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <h3>Error Log</h3>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+    <!-- 维护确认对话框 -->
+    <div id="vindicateDlg" class="modal hide fade">
+        <div class="modal-header">
+          <a href="#" class="close">&times;</a>
+          <h3>Delete URL</h3>
+        </div>
+        <div class="modal-body">
+          <p>You are about to delete one track url, this procedure is irreversible.</p>
+          <p>Do you want to proceed?</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn danger">Yes</a>
+          <a data-dismiss="modal" aria-hidden="true" class="btn secondary">No</a>
+        </div>
+    </div>
+    <!-- 错误提示或成功提示 -->
+    {% include 'msg.html' %}
+    <!-- 页面 -->
+    <div id="serverList">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td>{{_("app.id")}}</td>
+                    <td>{{_("app.name")}}</td>
+                    <td>{{_("app.category")}}</td>
+                    <td>{{_("app.host")}}</td>
+                    <td>{{_("app.type")}}</td>                        
+                    <td>{{_("app.runStatus")}}</td>
+                    <td>{{_("app.errorStatus")}}</td>
+                    <td>{{_("app.operate")}}</td>
+                    <td>{{_("app.config")}}</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for id, gs in appServerMap.items() %}
+                    <tr>
+                        <!-- 编号 -->
+                        <td>{{ id }}</td>
+                        <!-- 名称 -->
+                        <td>
+                            {{ gs.name }}                                
+                        </td>
+                        <!-- 分类 -->
+                        <td>
+                            {{ session['categoryMap'].get(gs.category | int) }}                                
+                        </td>
+                        <!-- 所在主机 -->
+                        <td>
+                            {{ gs.host }}
+                        </td>
+                        <!-- 类型 -->
+                        <td>
+                            {% if gs.type==0: %}
+                            {{_("gateServer")}}
+                            {% elif gs.type==1: %}
+                            {{_("loginServer")}}
+                            {% elif gs.type==2: %}
+                            {{_("gameServer")}}
+                            {% elif gs.type==3: %}
+                            {{_("resourceServer")}}
+                            {% else: %}
+                            {{_("unknownType")}}
+                            {% endif %}
+                        </td>                            
+                        <!-- 运行状态 -->
+                        <!-- #status: 0-停止 1-运行 2-维护 -->
+                        {% if gs.status==0: %}                                
+                            <td><span class="label">stopped</span></td>
+                        {% else: %}                        
+                            {% if gs.status == 1: %}
+                                {% if gs.error: %}                                        
+                                    <td><span class="label label-important">error</span></td>
+                                {% else: %}                                        
+                                    <td><span class="label label-success">running</span></td>
+                                {% endif %}
+                            {% elif gs.status ==2: %}                                
+                                <td><span class="label label-info">vindicating</span></td>
+                            {% endif %}
+                        {% endif %}
+                        <!-- 异常状态 -->
+                        <td>
+                            {% if gs.error: %}
+                            <a data-toggle="modal" data-target="#myModal" href="errorLog/{{gs.id}}">{{_("errorDetected")}}</a>
+                            {% else: %}
+                            {{_("normal")}}
+                            {% endif %}
+                        </td>
+                        <!-- 操作 -->
+                        <td>
+                            {% if gs.status==0: %}
+                                        {% if gs.type !=2 %}
+                                        <a href="startApp/{{gs.id}}">{{_("startApp")}}</a>
+                                        {% else: %}
+                                            {% if gs.status != 2 %}
+                                            <a href="startApp/{{gs.id}}">{{_("startApp")}}</a>
+                                            <a href="#" class="confirm-vindicate" data-link="vindicate/{{gs.id}}">{{_("startVindicateApp")}}</a>
+                                            {% endif %}
+                                        {% endif %}
+                                        <a href="jar/{{gs.id}}">{{_("updateApp")}}</a>
+                                        {% if gs.type==2: %}<a href="script/{{gs.id}}">{{_("updateGameScripts")}}</a>{% endif %}
+                                        <a href="logConsole/{{gs.id}}">{{_("viewConsole")}}</a>
+                            {% else: %}
+                                    {% if gs.status != 2 %}
+                                    <a href="stopApp/{{gs.id}}">{{_("stopApp")}}</a>
+                                    {% endif %}
+                                    <a href="jar/{{gs.id}}">{{_("updateApp")}}</a>
+                                    {% if gs.type==2: %}<a href="script/{{gs.id}}">{{_("updateGameScripts")}}</a>{% endif %}
+                                    <a href="logConsole/{{gs.id}}">{{_("viewConsole")}}</a>
+                            {% endif %}
+                        </td>
+                        <!-- 配置 -->
+                        <td>
+                            {% if gs.type ==1: %}
+                                {% if gs.configStatus == 0 %}
+                                {{_("normalConfig")}} <a href="/changeSyncConfig/{{gs.id}}/2">{{_("switchToSyncConfig")}}</a>
+                                {% elif gs.configStatus == 2 %}
+                                {{_("syncConfig")}} <a href="/changeSyncConfig/{{gs.id}}/0">{{_("switchToNormalConfig")}}</a>
+                                {% else: %}
+                                {{_("mixConfig")}}
+                                {% endif %}
+                            {% else: %}
+                            -
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

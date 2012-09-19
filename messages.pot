@@ -1,0 +1,253 @@
+# Translations template for PROJECT.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-09-05 18:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: goss.py:298 goss.py:329 goss.py:367 goss.py:393 goss.py:409 goss.py:420
+#: goss.py:587
+msgid "serverNotExist"
+msgstr ""
+
+#: goss.py:553
+msgid "atLeastOneGameServerRequired"
+msgstr ""
+
+#: goss.py:557 goss.py:594
+msgid "noFileUploaded"
+msgstr ""
+
+#: goss.py:601
+msgid "unSupportedFileType"
+msgstr ""
+
+#: goss.py:724
+msgid "noServerSelected"
+msgstr ""
+
+#: goss.py:729
+msgid "illegalServerId"
+msgstr ""
+
+#: goss.py:743
+msgid "backupSuccess"
+msgstr ""
+
+#: templates/appServerCatChooser.html:4 templates/appServerCatChooser.html:12
+msgid "app.allcategory"
+msgstr ""
+
+#: templates/backupDb.html:7
+msgid "backupDbNotice"
+msgstr ""
+
+#: templates/backupDb.html:35 templates/encryptScripts.html:7
+#: templates/index.html:6 templates/index.html:89 templates/index.html:96
+#: templates/mscript.html:6 templates/mscript.html:22
+#: templates/questScriptGen.html:7 templates/script.html:5
+msgid "updateGameScripts"
+msgstr ""
+
+#: templates/backupDb.html:36 templates/encryptScripts.html:8
+#: templates/index.html:7 templates/mscript.html:7
+#: templates/questScriptGen.html:8 templates/questScriptGen.html:14
+msgid "generateQuestScripts"
+msgstr ""
+
+#: templates/backupDb.html:37 templates/encryptScripts.html:9
+#: templates/encryptScripts.html:14 templates/index.html:8
+#: templates/mscript.html:8 templates/questScriptGen.html:9
+msgid "encryptScripts"
+msgstr ""
+
+#: templates/backupDb.html:38 templates/encryptScripts.html:10
+#: templates/index.html:9 templates/mscript.html:9
+#: templates/questScriptGen.html:10
+msgid "backupDatabase"
+msgstr ""
+
+#: templates/backupDb.html:42
+msgid "databaseBackup"
+msgstr ""
+
+#: templates/backupDb.html:49
+msgid "backup"
+msgstr ""
+
+#: templates/backupDb.html:56
+msgid "backupFileList"
+msgstr ""
+
+#: templates/base.html:4 templates/console.html:2 templates/denied.html:4
+#: templates/jar.html:2 templates/login.html:4 templates/login.html:14
+#: templates/script.html:2
+msgid "siteTitle"
+msgstr ""
+
+#: templates/base.html:35
+msgid "logout"
+msgstr ""
+
+#: templates/console.html:6
+msgid "consoleLog"
+msgstr ""
+
+#: templates/encryptScripts.html:16 templates/questScriptGen.html:16
+msgid "uploadGameScripts"
+msgstr ""
+
+#: templates/encryptScripts.html:17 templates/jar.html:6
+#: templates/mscript.html:24 templates/questScriptGen.html:17
+#: templates/script.html:7
+msgid "upload"
+msgstr ""
+
+#: templates/index.html:17
+msgid "app.id"
+msgstr ""
+
+#: templates/index.html:18
+msgid "app.name"
+msgstr ""
+
+#: templates/index.html:19
+msgid "app.category"
+msgstr ""
+
+#: templates/index.html:20
+msgid "app.type"
+msgstr ""
+
+#: templates/index.html:21
+msgid "app.runStatus"
+msgstr ""
+
+#: templates/index.html:22
+msgid "app.errorStatus"
+msgstr ""
+
+#: templates/index.html:23
+msgid "app.operate"
+msgstr ""
+
+#: templates/index.html:24
+msgid "app.config"
+msgstr ""
+
+#: templates/index.html:43
+msgid "gateServer"
+msgstr ""
+
+#: templates/index.html:45
+msgid "loginServer"
+msgstr ""
+
+#: templates/index.html:47
+msgid "gameServer"
+msgstr ""
+
+#: templates/index.html:49
+msgid "resourceServer"
+msgstr ""
+
+#: templates/index.html:51
+msgid "unknownType"
+msgstr ""
+
+#: templates/index.html:72
+msgid "errorDetected"
+msgstr ""
+
+#: templates/index.html:74
+msgid "normal"
+msgstr ""
+
+#: templates/index.html:81 templates/index.html:84
+msgid "startApp"
+msgstr ""
+
+#: templates/index.html:85
+msgid "startVindicateApp"
+msgstr ""
+
+#: templates/index.html:88 templates/index.html:95
+msgid "updateApp"
+msgstr ""
+
+#: templates/index.html:90 templates/index.html:97
+msgid "viewConsole"
+msgstr ""
+
+#: templates/index.html:93
+msgid "stopApp"
+msgstr ""
+
+#: templates/index.html:104
+msgid "normalConfig"
+msgstr ""
+
+#: templates/index.html:104
+msgid "switchToSyncConfig"
+msgstr ""
+
+#: templates/index.html:106
+msgid "syncConfig"
+msgstr ""
+
+#: templates/index.html:106
+msgid "switchToNormalConfig"
+msgstr ""
+
+#: templates/index.html:108
+msgid "mixConfig"
+msgstr ""
+
+#: templates/jar.html:3 templates/mscript.html:13 templates/script.html:3
+msgid "update"
+msgstr ""
+
+#: templates/jar.html:3
+msgid "app"
+msgstr ""
+
+#: templates/jar.html:5
+msgid "uploadJar"
+msgstr ""
+
+#: templates/login.html:21
+msgid "username"
+msgstr ""
+
+#: templates/login.html:25
+msgid "password"
+msgstr ""
+
+#: templates/login.html:30
+msgid "login"
+msgstr ""
+
+#: templates/mscript.html:13 templates/script.html:3
+msgid "gameScripts"
+msgstr ""
+
+#: templates/mscript.html:23 templates/script.html:9
+msgid "updateGameScriptsNotice"
+msgstr ""
+
+#: templates/questScriptGen.html:18
+msgid "generateQuestScriptsNotice"
+msgstr ""
+

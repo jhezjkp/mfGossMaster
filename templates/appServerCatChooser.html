@@ -1,0 +1,20 @@
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        {% if session.get('category', 0)==0 %}                
+            {{_("app.allcategory")}}
+        {% else %}
+            {{ session['categoryMap'][session['category']] }}
+        {% endif %}
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+        {% if session.get('category', 0)!=0 %}                 
+            <li><a href="/showAppServersByCategory/0">{{_("app.allcategory")}}</a></li> 
+        {% endif %} 
+        {% for id, name in session['categoryMap'].items() %}            
+            {% if session.get('category', 0)!=id %}                
+                <li><a href="/showAppServersByCategory/{{id}}">{{name}}</a></li>                            
+            {% endif %}            
+        {% endfor %}
+    </ul>
+</li>    

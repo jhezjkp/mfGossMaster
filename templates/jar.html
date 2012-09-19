@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+
+{% block nav %}
+    <li><a href="/">Home</a></li>
+    {% include 'appServerCatChooser.html' %}
+    <li><a href="../updateScripts">{{_("updateGameScripts")}}</a></li>
+    <li><a href="../questScriptGen">{{_("generateQuestScripts")}}</a></li>                     
+    <li><a href="../encryptScripts">{{_("encryptScripts")}}</a></li>
+    <li><a href="../backupDb">{{_("backupDatabase")}}</a></li>
+{% endblock %}
+
+{% block main %}
+    <div class="span6 offset3">
+        {% include 'msg.html' %}
+        <h1>{{_("update")}}[{{gs.name}}]{{_("app")}}</h1>
+		<form name="gameScript" enctype="multipart/form-data" method="post" action="{{gs.id}}">
+		    {{_("uploadJar")}}：<input type="file" name="jar"/>
+		    <button type="submit" class="btn">{{_('upload')}}</button>
+		</form>
+    </div>
+{% endblock %}

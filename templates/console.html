@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block head %}
+<!--
+<meta http-equiv="refresh" content="5" />
+-->
+<script type="text/javascript"> 
+function getLogContent() {
+	$.ajax({
+		type:'get',
+		datatype:'json',
+		cache:false,//不从缓存中去数据
+		url:'{{ajaxUrl}}',		
+		success: function(msg) {			
+		   $('#logContent').html(msg.log[1]); 
+		},		
+		complete: function() {   			
+   			setTimeout("getLogContent()",5000); //定时器
+		},
+		error: function() {
+   			$('#logContent').html("error occured, retrying..."); 
+		}
+	})
+}
+$(getLogContent);
+</script>
+{% endblock %}
+
+{% block nav %}
+    <li><a href="/">Home</a></li>
+    {% include 'appServerCatChooser.html' %}
+    <li><a href="../updateScripts">{{_("updateGameScripts")}}</a></li>
+    <li><a href="../questScriptGen">{{_("generateQuestScripts")}}</a></li>                     
+    <li><a href="../encryptScripts">{{_("encryptScripts")}}</a></li>
+    <li><a href="../backupDb">{{_("backupDatabase")}}</a></li>
+{% endblock %}
+
+{% block main %}
+    <div class="span8 offset2">
+        <h1>[{{app.name}}]{{_("consoleLog")}}</h1>
+		<div id="logContent">{{ log|safe }}</div>
+    </div>
+{% endblock %}
+
+

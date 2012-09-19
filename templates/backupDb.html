@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery.form.js')}}"></script>
+<script type="text/javascript">
+$(function(){
+        var options = {
+            beforeSubmit: function() {
+            $('#msg').html('{{_("backupDbNotice")}}');
+            },
+            success: showResult
+        }
+        $('#backupDb').ajaxForm(options);
+   })
+function showResult(responseText, statusText, xhr, $form) {
+    $('#msg').html("<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>×</button>"+responseText.msg+"</div>");
+}
+</script>
+<style type="text/css">
+    #backupList h2 {text-align: center;}
+</style>
+{% endblock %}
+
+{% block nav %}
+    <li><a href="/">Home</a></li>
+    {% include 'appServerCatChooser.html' %}
+    <li><a href="updateScripts">{{_("updateGameScripts")}}</a></li>
+    <li><a href="questScriptGen">{{_("generateQuestScripts")}}</a></li>                     
+    <li><a href="encryptScripts">{{_("encryptScripts")}}</a></li>
+    <li class="active"><a href="backupDb">{{_("backupDatabase")}}</a></li>
+{% endblock %}
+
+{% block main %}
+    <div class="span6 offset3">
+        <h1>{{_("databaseBackup")}}</h1>
+        <div id="divDb">
+            <fieldset>
+                <form id="backupDb" action="" method="post" class="form-horizontal">                
+                    {% for server in servers: %}
+                    <label class="checkbox">
+                        <input type="checkbox" name="id" value="{{server.id}}"/>{{server.id}}-{{server.name}}
+                    </label> 
+                    {% endfor %}
+                    <button type="submit" class="btn">{{_('backup')}}</button>                
+                </form>
+            </fiedset>
+        </div>        
+        <div id="msg"></div>
+        <div id="backupList">
+            <h2>{{_("backupFileList")}}</h2>
+            <table id="backupTable" class="table table-hover span8">
+            {% for item in backupFiles: %}
+            <tr>
+                <td>{{item[0]}}</td>
+                <td>{{item[1]}}</td>
+            </tr>
+            {% endfor %}
+            </table>
+        </div> 
+    </div>    
+{% endblock %}

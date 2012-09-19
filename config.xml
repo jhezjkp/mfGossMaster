@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config httpPort="19000" masterPort="9999">
+    <!-- goss agent 配置 
+    <agent ip="192.168.1.243" port="10190"/>
+    -->
+    <!-- 以下为应用服分类配置 -->  
+    <categories>
+        <category id="1" name="腾讯版"/>
+        <category id="2" name="X版"/>        
+    </categories>
+    <!-- 以下为权限配置 -->
+    <role key="admin" name="管理员">
+        <users>
+            <user name="admin" password="admin"/>
+        </users>
+        <actions>
+            <action>update_script</action>
+            <action>update_app</action>
+            <action>manage_app</action>
+            <action>manage_game_app</action>
+            <action>vindicate_game</action>
+            <action>view_console</action>
+            <action>switch_sync_config</action>            
+            <action>backup_database</action>
+        </actions>
+    </role>
+
+    <role key="script" name="策划">
+        <users>
+            <user name="scriptguy" password="123456"/>
+        </users>
+        <actions>
+            <action>update_script</action>
+            <action>manage_game_app</action>
+            <action>view_console</action>            
+        </actions>
+    </role>
+
+    <role key="operation" name="运维">
+        <users>
+            <user name="dalisu" password="123456"/>
+        </users>
+        <actions>
+            <action>update_script</action>
+            <action>update_app</action>
+            <action>manage_app</action>
+            <action>manage_game_app</action>
+            <action>vindicate_game</action>
+            <action>view_console</action>
+            <action>switch_sync_config</action>
+            <action>backup_database</action>
+        </actions>
+    </role>
+
+</config>

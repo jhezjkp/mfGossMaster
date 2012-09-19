@@ -1,0 +1,268 @@
+# English (United States) translations for PROJECT.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-09-05 18:12+0800\n"
+"PO-Revision-Date: 2012-06-14 16:42+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: en_US <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: goss.py:298 goss.py:329 goss.py:367 goss.py:393 goss.py:409 goss.py:420
+#: goss.py:587
+msgid "serverNotExist"
+msgstr "server with speicific id does't exist"
+
+#: goss.py:553
+msgid "atLeastOneGameServerRequired"
+msgstr ""
+
+#: goss.py:557 goss.py:594
+msgid "noFileUploaded"
+msgstr "no file uploaded!"
+
+#: goss.py:601
+msgid "unSupportedFileType"
+msgstr "unsupported file type"
+
+#: goss.py:724
+msgid "noServerSelected"
+msgstr "no server selected"
+
+#: goss.py:729
+msgid "illegalServerId"
+msgstr "illegal server id"
+
+#: goss.py:743
+#, fuzzy
+msgid "backupSuccess"
+msgstr "backup"
+
+#: templates/appServerCatChooser.html:4 templates/appServerCatChooser.html:12
+msgid "app.allcategory"
+msgstr ""
+
+#: templates/backupDb.html:7
+msgid "backupDbNotice"
+msgstr ""
+"backing up database, DO NOT refresh this page...the operation would take "
+"some time, please be patient..."
+
+#: templates/backupDb.html:35 templates/encryptScripts.html:7
+#: templates/index.html:6 templates/index.html:89 templates/index.html:96
+#: templates/mscript.html:6 templates/mscript.html:22
+#: templates/questScriptGen.html:7 templates/script.html:5
+msgid "updateGameScripts"
+msgstr "update game scripts"
+
+#: templates/backupDb.html:36 templates/encryptScripts.html:8
+#: templates/index.html:7 templates/mscript.html:7
+#: templates/questScriptGen.html:8 templates/questScriptGen.html:14
+msgid "generateQuestScripts"
+msgstr "generate quest scripts"
+
+#: templates/backupDb.html:37 templates/encryptScripts.html:9
+#: templates/encryptScripts.html:14 templates/index.html:8
+#: templates/mscript.html:8 templates/questScriptGen.html:9
+#, fuzzy
+msgid "encryptScripts"
+msgstr "generate quest scripts"
+
+#: templates/backupDb.html:38 templates/encryptScripts.html:10
+#: templates/index.html:9 templates/mscript.html:9
+#: templates/questScriptGen.html:10
+msgid "backupDatabase"
+msgstr "backup database"
+
+#: templates/backupDb.html:42
+msgid "databaseBackup"
+msgstr "database backup"
+
+#: templates/backupDb.html:49
+msgid "backup"
+msgstr "backup"
+
+#: templates/backupDb.html:56
+msgid "backupFileList"
+msgstr "backup file list"
+
+#: templates/base.html:4 templates/console.html:2 templates/denied.html:4
+#: templates/jar.html:2 templates/login.html:4 templates/login.html:14
+#: templates/script.html:2
+msgid "siteTitle"
+msgstr "SgGame Ⅱ management platform"
+
+#: templates/base.html:35
+msgid "logout"
+msgstr "logout"
+
+#: templates/console.html:6
+msgid "consoleLog"
+msgstr "console logs"
+
+#: templates/encryptScripts.html:16 templates/questScriptGen.html:16
+msgid "uploadGameScripts"
+msgstr "update game scripts"
+
+#: templates/encryptScripts.html:17 templates/jar.html:6
+#: templates/mscript.html:24 templates/questScriptGen.html:17
+#: templates/script.html:7
+msgid "upload"
+msgstr "upload"
+
+#: templates/index.html:17
+msgid "app.id"
+msgstr "id"
+
+#: templates/index.html:18
+msgid "app.name"
+msgstr "name"
+
+#: templates/index.html:19
+#, fuzzy
+msgid "app.category"
+msgstr "operate"
+
+#: templates/index.html:20
+msgid "app.type"
+msgstr "type"
+
+#: templates/index.html:21
+msgid "app.runStatus"
+msgstr "running status"
+
+#: templates/index.html:22
+msgid "app.errorStatus"
+msgstr "error status"
+
+#: templates/index.html:23
+msgid "app.operate"
+msgstr "operate"
+
+#: templates/index.html:24
+msgid "app.config"
+msgstr "config"
+
+#: templates/index.html:43
+msgid "gateServer"
+msgstr "gate server"
+
+#: templates/index.html:45
+msgid "loginServer"
+msgstr "login server"
+
+#: templates/index.html:47
+msgid "gameServer"
+msgstr "game server"
+
+#: templates/index.html:49
+msgid "resourceServer"
+msgstr "resource server"
+
+#: templates/index.html:51
+msgid "unknownType"
+msgstr "unknownType"
+
+#: templates/index.html:72
+msgid "errorDetected"
+msgstr ""
+
+#: templates/index.html:74
+#, fuzzy
+msgid "normal"
+msgstr "normal config"
+
+#: templates/index.html:81 templates/index.html:84
+msgid "startApp"
+msgstr "start App"
+
+#: templates/index.html:85
+msgid "startVindicateApp"
+msgstr "start maintenance App"
+
+#: templates/index.html:88 templates/index.html:95
+msgid "updateApp"
+msgstr "update App"
+
+#: templates/index.html:90 templates/index.html:97
+msgid "viewConsole"
+msgstr "view console"
+
+#: templates/index.html:93
+msgid "stopApp"
+msgstr "stop App"
+
+#: templates/index.html:104
+msgid "normalConfig"
+msgstr "normal config"
+
+#: templates/index.html:104
+msgid "switchToSyncConfig"
+msgstr "switch to sync config"
+
+#: templates/index.html:106
+msgid "syncConfig"
+msgstr "sync config"
+
+#: templates/index.html:106
+msgid "switchToNormalConfig"
+msgstr "switch to normal config"
+
+#: templates/index.html:108
+msgid "mixConfig"
+msgstr "mix config"
+
+#: templates/jar.html:3 templates/mscript.html:13 templates/script.html:3
+msgid "update"
+msgstr "update App"
+
+#: templates/jar.html:3
+msgid "app"
+msgstr "application"
+
+#: templates/jar.html:5
+msgid "uploadJar"
+msgstr "upload jar"
+
+#: templates/login.html:21
+msgid "username"
+msgstr "username"
+
+#: templates/login.html:25
+msgid "password"
+msgstr "password"
+
+#: templates/login.html:30
+msgid "login"
+msgstr "login"
+
+#: templates/mscript.html:13 templates/script.html:3
+msgid "gameScripts"
+msgstr "game scripts"
+
+#: templates/mscript.html:23 templates/script.html:9
+msgid "updateGameScriptsNotice"
+msgstr "support .xls and .7z file type(.7z file should no folders inside)"
+
+#: templates/questScriptGen.html:18
+msgid "generateQuestScriptsNotice"
+msgstr ""
+"note: the scripts should be uploaded as a .7z file with no folders "
+"inside, and it should contains these "
+"files:宝箱和任务道具.xls、道具脚本.xls、NPC脚本.xls、地图脚本.xls、怪物脚本.xls和任务脚本.xls"
+
+#~ msgid "guest"
+#~ msgstr "guest"
+
+#~ msgid "chooseServersToUpdate"
+#~ msgstr ""
+

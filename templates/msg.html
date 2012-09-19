@@ -1,0 +1,14 @@
+<!-- 成功消息 -->
+{% if successMsg: %}
+    <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        {{ successMsg | safe }}
+    </div>        
+{% endif %}
+<!-- 错误消息 -->
+{% if errorMsg: %}
+    <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        {{ errorMsg }}
+    </div>        
+{% endif %}

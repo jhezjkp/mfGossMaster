@@ -1,0 +1,259 @@
+# Chinese (China) translations for PROJECT.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-09-05 18:12+0800\n"
+"PO-Revision-Date: 2012-06-14 16:58+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: goss.py:298 goss.py:329 goss.py:367 goss.py:393 goss.py:409 goss.py:420
+#: goss.py:587
+msgid "serverNotExist"
+msgstr "指定编号的应用服不存在"
+
+#: goss.py:553
+msgid "atLeastOneGameServerRequired"
+msgstr "至少要选择一个游戏服"
+
+#: goss.py:557 goss.py:594
+msgid "noFileUploaded"
+msgstr "未上传任何文件"
+
+#: goss.py:601
+msgid "unSupportedFileType"
+msgstr "不支持的文件类型"
+
+#: goss.py:724
+msgid "noServerSelected"
+msgstr "未选择任何服务器"
+
+#: goss.py:729
+msgid "illegalServerId"
+msgstr "错误的服务器编号"
+
+#: goss.py:743
+msgid "backupSuccess"
+msgstr "备份数据库成功"
+
+#: templates/appServerCatChooser.html:4 templates/appServerCatChooser.html:12
+msgid "app.allcategory"
+msgstr "所有分类"
+
+#: templates/backupDb.html:7
+msgid "backupDbNotice"
+msgstr "正在备份数据库，请勿刷新该页面...该操作耗时较长，请耐心等待..."
+
+#: templates/backupDb.html:35 templates/encryptScripts.html:7
+#: templates/index.html:6 templates/index.html:89 templates/index.html:96
+#: templates/mscript.html:6 templates/mscript.html:22
+#: templates/questScriptGen.html:7 templates/script.html:5
+msgid "updateGameScripts"
+msgstr "更新游戏脚本"
+
+#: templates/backupDb.html:36 templates/encryptScripts.html:8
+#: templates/index.html:7 templates/mscript.html:7
+#: templates/questScriptGen.html:8 templates/questScriptGen.html:14
+msgid "generateQuestScripts"
+msgstr "生成任务脚本"
+
+#: templates/backupDb.html:37 templates/encryptScripts.html:9
+#: templates/encryptScripts.html:14 templates/index.html:8
+#: templates/mscript.html:8 templates/questScriptGen.html:9
+msgid "encryptScripts"
+msgstr "脚本加密"
+
+#: templates/backupDb.html:38 templates/encryptScripts.html:10
+#: templates/index.html:9 templates/mscript.html:9
+#: templates/questScriptGen.html:10
+msgid "backupDatabase"
+msgstr "备份数据库"
+
+#: templates/backupDb.html:42
+msgid "databaseBackup"
+msgstr "数据库备份"
+
+#: templates/backupDb.html:49
+msgid "backup"
+msgstr "备份数据库"
+
+#: templates/backupDb.html:56
+msgid "backupFileList"
+msgstr "备份文件列表"
+
+#: templates/base.html:4 templates/console.html:2 templates/denied.html:4
+#: templates/jar.html:2 templates/login.html:4 templates/login.html:14
+#: templates/script.html:2
+msgid "siteTitle"
+msgstr "上古Ⅱ测试管理平台"
+
+#: templates/base.html:35
+msgid "logout"
+msgstr "登出"
+
+#: templates/console.html:6
+msgid "consoleLog"
+msgstr "控制台日志"
+
+#: templates/encryptScripts.html:16 templates/questScriptGen.html:16
+msgid "uploadGameScripts"
+msgstr "上传游戏脚本"
+
+#: templates/encryptScripts.html:17 templates/jar.html:6
+#: templates/mscript.html:24 templates/questScriptGen.html:17
+#: templates/script.html:7
+msgid "upload"
+msgstr "上传"
+
+#: templates/index.html:17
+msgid "app.id"
+msgstr "编号"
+
+#: templates/index.html:18
+msgid "app.name"
+msgstr "名称"
+
+#: templates/index.html:19
+msgid "app.category"
+msgstr "分类"
+
+#: templates/index.html:20
+msgid "app.type"
+msgstr "类型"
+
+#: templates/index.html:21
+msgid "app.runStatus"
+msgstr "运行状态"
+
+#: templates/index.html:22
+msgid "app.errorStatus"
+msgstr "异常状态"
+
+#: templates/index.html:23
+msgid "app.operate"
+msgstr "操作"
+
+#: templates/index.html:24
+msgid "app.config"
+msgstr "配置"
+
+#: templates/index.html:43
+msgid "gateServer"
+msgstr "网关服"
+
+#: templates/index.html:45
+msgid "loginServer"
+msgstr "登录服"
+
+#: templates/index.html:47
+msgid "gameServer"
+msgstr "游戏服"
+
+#: templates/index.html:49
+msgid "resourceServer"
+msgstr "资源服务"
+
+#: templates/index.html:51
+msgid "unknownType"
+msgstr "未知类型"
+
+#: templates/index.html:72
+msgid "errorDetected"
+msgstr "检测到异常"
+
+#: templates/index.html:74
+msgid "normal"
+msgstr "正常"
+
+#: templates/index.html:81 templates/index.html:84
+msgid "startApp"
+msgstr "启动应用"
+
+#: templates/index.html:85
+msgid "startVindicateApp"
+msgstr "启动维护程序"
+
+#: templates/index.html:88 templates/index.html:95
+msgid "updateApp"
+msgstr "更新应用程序"
+
+#: templates/index.html:90 templates/index.html:97
+msgid "viewConsole"
+msgstr "查看控制台"
+
+#: templates/index.html:93
+msgid "stopApp"
+msgstr "停止应用"
+
+#: templates/index.html:104
+msgid "normalConfig"
+msgstr "正常配置"
+
+#: templates/index.html:104
+msgid "switchToSyncConfig"
+msgstr "切换到同步配置"
+
+#: templates/index.html:106
+msgid "syncConfig"
+msgstr "同步配置"
+
+#: templates/index.html:106
+msgid "switchToNormalConfig"
+msgstr "切换到正常配置"
+
+#: templates/index.html:108
+msgid "mixConfig"
+msgstr "混合配置"
+
+#: templates/jar.html:3 templates/mscript.html:13 templates/script.html:3
+msgid "update"
+msgstr "更新"
+
+#: templates/jar.html:3
+msgid "app"
+msgstr "主程序"
+
+#: templates/jar.html:5
+msgid "uploadJar"
+msgstr "上传jar包"
+
+#: templates/login.html:21
+msgid "username"
+msgstr "用户名"
+
+#: templates/login.html:25
+msgid "password"
+msgstr "密码"
+
+#: templates/login.html:30
+msgid "login"
+msgstr "登录"
+
+#: templates/mscript.html:13 templates/script.html:3
+msgid "gameScripts"
+msgstr "游戏脚本"
+
+#: templates/mscript.html:23 templates/script.html:9
+msgid "updateGameScriptsNotice"
+msgstr "单个文件请直接使用xls，多个文件请使用7z格式压缩后再上传，如有任务脚本变更，则请先生成任务脚本"
+
+#: templates/questScriptGen.html:18
+msgid "generateQuestScriptsNotice"
+msgstr "注意：脚本请以7z格式上传，里面不要有文件夹，且要包含宝箱和任务道具.xls、道具脚本.xls、NPC脚本.xls、地图脚本.xls、怪物脚本.xls和任务脚本.xls"
+
+#~ msgid "guest"
+#~ msgstr "匿名用户"
+
+#~ msgid "chooseServersToUpdate"
+#~ msgstr "选择需要更新的游戏服"
+

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block nav %}
+    <li><a href="/">Home</a></li>
+    {% include 'appServerCatChooser.html' %}
+    <li class="active"><a href="updateScripts">{{_("updateGameScripts")}}</a></li>
+    <li><a href="questScriptGen">{{_("generateQuestScripts")}}</a></li>                     
+    <li><a href="encryptScripts">{{_("encryptScripts")}}</a></li>
+    <li><a href="backupDb">{{_("backupDatabase")}}</a></li>
+{% endblock %}
+
+{% block main %}
+    <div class="span8 offset2">
+        {% include 'msg.html' %}
+        <h1>{{_("update")}}{{_("gameScripts")}}</h1>
+        <form name="gameScript" enctype="multipart/form-data" method="post" action="">      
+            <div id="servers">
+                {% for gs in gameServers: %}            
+                    <label class="checkbox inline">
+                        <input type="checkbox" name="id" value="{{gs.id}}">{{gs.name}}
+                    </label>
+                {% endfor %}
+            </div>
+            {{_("updateGameScripts")}}： <span class="controls"><input type="file" name="script"/></span>
+          <label>{{_('updateGameScriptsNotice')}}</label>  
+          <button type="submit" class="btn">{{_('upload')}}</button>
+        </form>    
+    </div>
+{% endblock %}
