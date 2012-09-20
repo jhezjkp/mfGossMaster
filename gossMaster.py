@@ -163,9 +163,28 @@ class Master(threading.Thread):
 		#向各agent分发应用并执行更新
 		for ip, theList in theAgentMap.items():
 			client = self.agentMap[ip]
-			self.logger.info("dispatch [%s] to [%s], %s will be updated...", fileName, ip, theList)
+			self.logger.info("dispatch app [%s] to [%s], %s will be updated...", fileName, ip, theList)
 			r = client.updateApps(theList, fileName, xmlrpclib.Binary(binary))
 			result[r[0]] = r[1]
+		return result
+
+	def updateScripts(self, appIdList, fileName, binary):
+		'''更新应用'''		
+		#应用更新结果 key-agent ip value-([(应用编号, 需要更新的脚本数, 成功更新的脚本数),], 更新日志)
+		result = {}
+		#需要进行分发执行更新的agent key-agentIp, value-该agent托管的、需要更新的app id列表		
+		theAgentMap = {}
+		for id in appIdList:
+			ip = self.appMap[id].host
+			theList = theAgentMap.get(ip, list())
+			theList.append(id)
+			theAgentMap[ip] = theList
+		#向各agent分发应用并执行更新
+		for ip, theList in theAgentMap.items():
+			client = self.agentMap[ip]
+			self.logger.info("dispatch script(s) [%s] to [%s], %s will be updated...", fileName, ip, theList)
+			r = client.updateScripts(theList, fileName, xmlrpclib.Binary(binary))
+			result[r[0]] = r[1]		
 		return result
 
 	def run(self):

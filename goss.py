@@ -12,7 +12,6 @@ import datetime
 import logging
 import hashlib
 import xml.dom.minidom
-import zipfile
 
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for, session, jsonify
 from flaskext.principal import Principal, Permission, ActionNeed, TypeNeed, Identity, identity_changed, PermissionDenied
@@ -335,20 +334,20 @@ def ajaxConsole(id):
 
 
 def parseAppUpdateResult(result):
-    str = ""
+    msg = ""
     for key, value in result.items():
         for id, code in value:
             name = master.appMap[id].name
             if code == SUCCESS:
-                str += key + "  " + name + "  更新成功<br/>"
+                msg += key + "  " + name + "  更新成功<br/>"
             else:
-                str += key + "  " + name + "  更新失败<br/>"
-    return str
+                msg += key + "  " + name + "  更新失败<br/>"
+    return msg
 
 
 @app.route('/updateApps', methods=['GET', 'POST'])
 @update_app_permission.require(http_exception=403)
-def updateMultipleApps():
+def updateMultyApps():
     '''更新多个应用程序'''    
     if request.method == 'GET':
         return render_template('mjar.html', gameServers=master.appMap.values())
@@ -414,6 +413,22 @@ def updateApp(id):
                     return render_template('jar.html', gs=gs, infoMsg=parseAppUpdateResult(result))
 
 
+def parseScriptUpdateResult(result):
+    #result格式：key-agent ip value-([(应用编号, 需要更新的脚本数, 成功更新的脚本数),], 更新日志)
+    msg = ""
+    logStr = ""
+    for key, value in result.items():
+        logStr += "=========【" + key + "】更新结果==========<br/>" + value[1]        
+        for id, scriptsCount, successCount in value[0]:
+            name = master.appMap[id].name            
+            if scriptsCount == successCount:                
+                msg += key + "  " + name + "  更新成功<br/>"
+            else:
+                failCount = scriptsCount - successCount                
+                msg += key + "  " + name + "  " + str(failCount) + "个脚本更新失败<br/>"
+    return msg + logStr
+
+
 @app.route('/updateScripts', methods=['GET', 'POST'])
 @update_script_permission.require(http_exception=403)
 def multyScriptUpdate():
@@ -425,10 +440,12 @@ def multyScriptUpdate():
         ids = request.form.getlist("id")
         if len(ids) == 0:
             return render_template('mscript.html', gameServers=gameServers, errorMsg=_("atLeastOneGameServerRequired"))
-        gameServerArray = [appServerMap.get(int(id)) for id in ids]
+        else:
+            #将id转为int
+            ids = map(lambda x: int(x), ids)
         f = request.files['script']
         if not f:
-            return render_template('mscript.html', gameServers=gameServers, errorMsg=_("noFileUploaded"))
+            return render_template('mscript.html', gameServers=gameServers, errorMsg=_("noFileUploaded"))        
         try:
             basePath = appPath
             path = os.path.join(basePath, 'uploads')
@@ -437,13 +454,13 @@ def multyScriptUpdate():
             os.mkdir(folder)
             path = os.path.join(path, folder)
             os.chdir(path)
-            if f.filename.endswith(".7z"):
-                f.save(os.path.join(path, 'scriptToUpdate.7z'))
-                os.system('7z -y x \"scriptToUpdate.7z\" > /dev/null')
-                os.remove('scriptToUpdate.7z')
-            else:
-                f.save(os.path.join(path, f.filename))
-            return render_template('mscript.html', gameServers=gameServers, successMsg=wrapperUpdateGameScript(path, gameServerArray, False))
+            fileName = f.filename
+            f.save(os.path.join(path, fileName))
+            f.close()
+            f = open(os.path.join(path, fileName), "rb")            
+            result = master.updateScripts(ids, fileName, f.read())
+            f.close()
+            return render_template('mscript.html', gameServers=gameServers, infoMsg=parseScriptUpdateResult(result))
         except:
             return render_template('mscript.html', gameServers=gameServers, errorMsg="<font color=\"red\">" + str(sys.exc_info()[0]) + str(sys.exc_info()[1]) + "</font><br/>")
         finally:
@@ -467,103 +484,21 @@ def updateGameScripts(id):
             if not f:
                 return render_template('script.html', gs=gs, errorMsg=_("noFileUploaded"))
             else:
-                path = os.path.join(gs.path, 'scripts')
-                if not os.path.exists(path):
-                    os.mkdir(path)
-                scriptFile = os.path.join(path, f.filename)
-                if not (scriptFile.endswith('.7z') or scriptFile.endswith('.xls') or scriptFile.endswith('.wow')):
-                    return render_template('script.html', gs=gs, errorMsg=_("unSupportedFileType"))
-                f.save(scriptFile)
-                #result = ""
-                #如果是zip文件则解压缩
-                if zipfile.is_zipfile(scriptFile):
-                    zf = zipfile.ZipFile(scriptFile)
-                    len(zf.namelist())
-                    os.chdir(path)
-                    zf.extractall()
-                    zf.close()
-                    os.remove(scriptFile)
-                elif scriptFile.endswith('.7z'):
-                    os.chdir(path)
-                    os.system('7z -y x \"' + f.filename + '\" > /dev/null')
-                    os.remove(scriptFile)
-                #更新脚本文件
-                return render_template('script.html', gs=gs, successMsg=wrapperUpdateGameScript(path, [gs], True))
+                basePath = appPath
+                path = os.path.join(basePath, 'uploads')
+                os.chdir(path)
+                folder = datetime.datetime.now().strftime('script_%Y%m%d_%H%M%S')
+                os.mkdir(folder)
+                path = os.path.join(path, folder)
+                os.chdir(path)
+                fileName = f.filename
+                f.save(os.path.join(path, fileName))
+                f.close()
+                f = open(os.path.join(path, fileName), "rb")            
+                result = master.updateScripts([id], fileName, f.read())
+                f.close()
+                return render_template('script.html', gs=gs, infoMsg=parseScriptUpdateResult(result))
 
-
-def wrapperUpdateGameScript(srcPath, gameServerArray, isDeleteScript=False):
-    #更新脚本文件
-    #初始化需要更新的脚本列表
-    scripts = []
-    logger.info("--------------- 初始化需要更新的脚本列表 ---------------")
-    result = "--------------- 初始化需要更新的脚本列表 ---------------<br/>"
-    for f in os.listdir(srcPath):
-        if os.path.isfile(os.path.join(srcPath, f)):
-            logger.info(f)
-            result += str(f) + "<br/>"
-            scripts.append(f)
-    logger.info("--------------- 总计有%d个脚本需要更新 -----------------", len(scripts))
-    result += "--------------- 总计有" + str(len(scripts)) + "个脚本需要更新 -----------------<br/>"
-    appendSuffix = datetime.datetime.now().strftime('_%Y%m%d_%H%M%S.')  # 默认文件备份后缀
-    #循环更新指定游戏服脚本
-    for gs in gameServerArray:
-        result += "----------- 更新【" + gs.name + "】脚本 ---------------<br/>"
-        result += updateScript(srcPath, scripts, gs.name, os.path.join(gs.path, 'data'), appendSuffix)
-    if isDeleteScript:
-        #删除更新成功的脚本
-        logger.info("--------------- 删除更新成功的脚本 ---------------")
-        result += "--------------- 删除更新成功的脚本 ---------------<br/>"
-        for script in scripts:
-            os.remove(srcPath + os.sep + script)
-            logger.info("delete " + srcPath + os.sep + script)
-            result += "delete " + srcPath + os.sep + script + "<br/>"
-        logger.info("------------- 更新成功的脚本清除完毕 -------------")
-        result += "------------- 更新成功的脚本清除完毕 -------------<br/>"
-    result += "============= 脚本更新完成 ==============="
-    return result
-
-
-def updateScript(srcPath, scripts, gameServer, path, appendSuffix):
-    '''
-    更新脚本
-    <参数>
-            srcPath:更新源位置
-            scripts:脚本列表
-            gameServer:游戏服名
-            path:游戏服data文件夹路径，如/home/project/game1/data
-            appendSuffix:备份文件名后缀，一般为日期+时间
-    <返回值>
-            result:更新日志
-    '''
-    result = ""
-    for dirpath, dirnames, filenames in os.walk(path):
-        for filename in filenames:
-                    #如果待更新的文件中有该文件则进行文件(hash)比较
-            if filename in scripts:
-                srcLastTime = time.strftime('%Y-%m-%d %X', time.localtime(os.path.getmtime(os.path.join(srcPath, filename))))
-                targetLastTime = time.strftime('%Y-%m-%d %X', time.localtime(os.path.getmtime(os.path.join(dirpath, filename))))
-                if hashFile(os.path.join(dirpath, filename)) != hashFile(os.path.join(srcPath, filename)):
-                    #如果文件不同则备份并更新
-                    try:
-                        fileName = filename.split(".")[0]
-                        fileSuffix = filename.split(".")[-1]
-                        #备份文件名
-                        bak = fileName + appendSuffix + fileSuffix
-                        #切换到脚本所在目录
-                        os.chdir(dirpath)
-                        #备份原文件
-                        os.rename(filename, bak)
-                        #复制新的脚本文件到当前目录
-                        shutil.copyfile(os.path.join(srcPath, filename), os.path.join(dirpath, filename))
-                        logger.info("%25s %s %s %s %s", filename, srcLastTime, ">>>>>>", targetLastTime, os.path.join(dirpath, filename))
-                        result += "{:<25s} {:s} >>>>>> {:s} {:s}".format(filename, srcLastTime, targetLastTime, os.path.join(path, filename)) + "<br/>"
-                    except:
-                        result += "<font color=\"red\">" + str(sys.exc_info()[0]) + str(sys.exc_info()[1]) + "</font><br/>"
-                else:
-                    #文件哈希值一致则只记录一下日志
-                    logger.info("%25s %s %s %s %s", filename, srcLastTime, "======", targetLastTime, os.path.join(dirpath, filename))
-                    result += "{:<25s} {:s} ====== {:s} {:s}<br/>".format(filename, srcLastTime, targetLastTime, os.path.join(dirpath, filename))
-    return result
 
 
 def getReadableSize(sizeInbyte):
