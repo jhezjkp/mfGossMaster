@@ -5,6 +5,13 @@
         {{ successMsg | safe }}
     </div>        
 {% endif %}
+<!-- 普通消息 -->
+{% if infoMsg: %}
+    <div class="alert alert-info">
+        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        {{ infoMsg | safe }}
+    </div>        
+{% endif %}
 <!-- 错误消息 -->
 {% if errorMsg: %}
     <div class="alert alert-error">

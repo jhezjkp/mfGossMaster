@@ -30,6 +30,9 @@ SERVER_NOT_EXIST = -1
 #操作成功
 SUCCESS = 0
 
+#操作失败
+FAIL = 1
+
 #非法操作
-ILEGAL_OPERATE = 1
+ILEGAL_OPERATE = 2
 

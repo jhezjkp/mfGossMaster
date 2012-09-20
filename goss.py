@@ -27,6 +27,8 @@ from constants import *
 httpPort = 9999
 #分类
 categoryMap = {}
+#应用部署路径
+appPath = os.path.dirname(os.path.abspath(__file__))
 #用户
 userMap = {}
 #用户角色对应关系
@@ -332,6 +334,53 @@ def ajaxConsole(id):
         return jsonify(log=app.getLogContent())
 
 
+def parseAppUpdateResult(result):
+    str = ""
+    for key, value in result.items():
+        for id, code in value:
+            name = master.appMap[id].name
+            if code == SUCCESS:
+                str += key + "  " + name + "  更新成功<br/>"
+            else:
+                str += key + "  " + name + "  更新失败<br/>"
+    return str
+
+
+@app.route('/updateApps', methods=['GET', 'POST'])
+@update_app_permission.require(http_exception=403)
+def updateMultipleApps():
+    '''更新多个应用程序'''    
+    if request.method == 'GET':
+        return render_template('mjar.html', gameServers=master.appMap.values())
+    else:        
+        f = request.files['jar']
+        if not f:
+            return render_template('mjar.html', gameServers=master.appMap.values(), errorMsg='请上传一个需要更新的程序包')
+        else:
+            if not f.filename.endswith('.jar'):
+                return render_template('mjar.html', gameServers=master.appMap.values(), errorMsg="请传jar包")
+            else:
+                ids = request.form.getlist("id")
+                if len(ids) == 0:
+                    return render_template('mjar.html', gameServers=master.appMap.values(), errorMsg=_("atLeastOneGameServerRequired"))
+                else:
+                    #将id转为int
+                    ids = map(lambda x: int(x), ids)
+                try:                                             
+                    basePath = appPath
+                    path = os.path.join(basePath, 'uploads')
+                    fileName = datetime.datetime.now().strftime('app_%Y%m%d_%H%M%S.jar')
+                    appJar = os.path.join(path, fileName)
+                    f.save(appJar)
+                    f.close()
+                    f = open(appJar, "rb")
+                    result = master.updateApps(ids, fileName, f.read())
+                    f.close()
+                except:
+                    return render_template('mjar.html', gameServers=master.appMap.values(), errorMsg=str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+                return render_template('mjar.html', gameServers=master.appMap.values(), infoMsg=parseAppUpdateResult(result))
+
+
 @app.route('/jar/<int:id>', methods=['GET', 'POST'])
 @update_app_permission.require(http_exception=403)
 def updateApp(id):
@@ -350,18 +399,19 @@ def updateApp(id):
                 if not f.filename.endswith('.jar'):
                     return render_template('jar.html', gs=gs, errorMsg="请传jar包")
                 else:
-                    try:
-                        #先备份原程序
-                        os.chdir(gs.path)
-                        appendSuffix = datetime.datetime.now().strftime('_%Y%m%d_%H%M%S.')  # 默认文件备份后缀
-                        fileName = gs.jar.split(".")[0]
-                        fileSuffix = gs.jar.split(".")[-1]
-                        bak = fileName + appendSuffix + fileSuffix
-                        os.rename(gs.jar, bak)
-                        f.save(os.path.join(gs.path, gs.jar))
+                    try:                                             
+                        basePath = appPath
+                        path = os.path.join(basePath, 'uploads')
+                        fileName = datetime.datetime.now().strftime('app_%Y%m%d_%H%M%S.jar')
+                        appJar = os.path.join(path, fileName)
+                        f.save(appJar)
+                        f.close()
+                        f = open(appJar, "rb")
+                        result = master.updateApps([id,], fileName, f.read())
+                        f.close()
                     except:
-                        return render_template('jar.html', gs=gs, errorMsg="<font color=\"red\">" + str(sys.exc_info()[0]) + str(sys.exc_info()[1]) + "</font><br/>")
-                    return render_template('jar.html', gs=gs, successMsg="更新成功")
+                        return render_template('jar.html', gs=gs, errorMsg=str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+                    return render_template('jar.html', gs=gs, infoMsg=parseAppUpdateResult(result))
 
 
 @app.route('/updateScripts', methods=['GET', 'POST'])
@@ -405,7 +455,7 @@ def multyScriptUpdate():
 @app.route('/script/<int:id>', methods=['GET', 'POST'])
 @update_script_permission.require(http_exception=403)
 def updateGameScripts(id):
-    '''更新游戏脚本'''
+    '''更新单个游戏脚本'''
     gs = master.appMap.get(id)
     if gs is None:
         return render_template('script.html', gs=gs, errorMsg=_('serverNotExist'))

@@ -114,7 +114,7 @@ class Master(threading.Thread):
 		self.daemon = True
 
 	def register(self, ip, port, apps):
-		'''注册应用'''		
+		'''注册应用(供agent调用)'''		
 		#agent
 		client = xmlrpclib.ServerProxy("http://" + ip + ":" + str(port), encoding='utf-8')
 		self.agentMap[ip] = client
@@ -131,7 +131,8 @@ class Master(threading.Thread):
 			self.logger.info("register app 【%s】", name)			
 		return SUCCESS
 
-	def updateAppStatus(self, ip, port, statusTupleList):		
+	def updateAppStatus(self, ip, port, statusTupleList):	
+		'''更新应用状态(供agent调用)'''	
 		if ip not in self.agentMap:
 			self.logger.error("agent 【%s】 not registered yet...", ip + ":" + str(port))
 			return AGENT_NOT_REGISTER
@@ -147,6 +148,25 @@ class Master(threading.Thread):
 				self.logger.error("app(id=%d) not registered yet...", id)
 				return AGENT_NOT_REGISTER
 		return SUCCESS
+
+	def updateApps(self, appIdList, fileName, binary):
+		'''更新应用'''
+		#应用更新结果 key-agent ip value-[(应用编号, 成功/失败代码),]
+		result = {}
+		#需要进行分发执行更新的agent key-agentIp, value-该agent托管的、需要更新的app id列表		
+		theAgentMap = {}
+		for id in appIdList:
+			ip = self.appMap[id].host
+			theList = theAgentMap.get(ip, list())
+			theList.append(id)
+			theAgentMap[ip] = theList
+		#向各agent分发应用并执行更新
+		for ip, theList in theAgentMap.items():
+			client = self.agentMap[ip]
+			self.logger.info("dispatch [%s] to [%s], %s will be updated...", fileName, ip, theList)
+			r = client.updateApps(theList, fileName, xmlrpclib.Binary(binary))
+			result[r[0]] = r[1]
+		return result
 
 	def run(self):
 		server = SimpleXMLRPCServer(("0.0.0.0", self.masterPort), allow_none=True, logRequests=False)
