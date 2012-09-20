@@ -11,6 +11,7 @@ import logging
 import threading
 import xmlrpclib
 import socket
+import base64
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 
 from constants import *
@@ -77,8 +78,8 @@ class AppNode(object):
 
 	def getLogContent(self):
 		'''获取控制台日志内容'''
-		try:
-			logContent = self.client.getConsoleLog(self.id)
+		try:			
+			logContent = base64.b64decode(self.client.getConsoleLog(self.id)[1])			
 		except socket.error:
 			logContent = "RPC Call failed..."
 			self.logger.error(socket.error)
@@ -88,7 +89,8 @@ class AppNode(object):
 	def getErrorLog(self):
 		'''获取错误日志'''
 		try:
-			logContent = self.client.getErrorLog(self.id)
+			logContent = self.client.getErrorLog(self.id)[1]
+			logContent = base64.b64decode(logContent)
 		except socket.error:
 			logContent = "RPC Call failed..."
 			self.logger.error(socket.error)
@@ -114,7 +116,7 @@ class Master(threading.Thread):
 	def register(self, ip, port, apps):
 		'''注册应用'''		
 		#agent
-		client = xmlrpclib.ServerProxy("http://" + ip + ":" + str(port))
+		client = xmlrpclib.ServerProxy("http://" + ip + ":" + str(port), encoding='utf-8')
 		self.agentMap[ip] = client
 		self.logger.info("register agent 【%s】", ip + ":" + str(port))
 		#先把旧应用的移除

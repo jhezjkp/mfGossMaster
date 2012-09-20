@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style type="text/css">
+	.logDiv {min-height: 300px; max-height: 300px; overflow: auto;}
+</style>
+<script type="text/javascript"> 
+function getLogContent() {
+	$.ajax({
+		type:'get',
+		datatype:'json',
+		cache:false,//不从缓存中去数据
+		url:'{{ajaxUrl}}',		
+		success: function(msg) {	
+			for(var key in msg.logMap) {
+				//console.debug(msg.logMap[key])
+				$('#logContent'+key).html(msg.logMap[key]); 
+			}		   
+		},		
+		complete: function() {   			
+   			setTimeout("getLogContent()",5000); //定时器
+		},
+		error: function() {
+   			$('#logContent').html("error occured, retrying..."); 
+		}
+	})
+}
+$(getLogContent);
+</script>
+{% endblock %}
+
+{% block nav %}
+    <li><a href="/">Home</a></li>
+    {% include 'appServerCatChooser.html' %}
+    <li class="active"><a href="consoleWall">{{_("consoleWall")}}</a></li>
+    <li><a href="../updateScripts">{{_("updateGameScripts")}}</a></li>    
+    <li><a href="../backupDb">{{_("backupDatabase")}}</a></li>
+{% endblock %}
+
+{% block main %}
+    <div class="span12">        	
+        <ul class="thumbnails">
+        	{% for app in appMap.values() %}    		
+			  <li class="span4">			  	
+			  	<h3>{{app.name}}</h3>			  	
+			    <div class="thumbnail">			      
+			      <div id="logContent{{app.id}}" class="logDiv">{{ logMap[app.id]|safe }}</div>
+			    </div>				
+			  </li>			  
+			  {% endfor %}
+		</ul>		
+    </div>
+{% endblock %}
+
+

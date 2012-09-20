@@ -265,6 +265,40 @@ def changeSyncConfig(serverId, status):
     return redirect(url_for('index'))
 
 
+@app.route('/consoleWall')
+@view_console_permission.require()
+def consoleWall():
+    '''查看控制台日志'''
+    apps = {}    
+    category = session.get('category', 0)
+    for app in master.appMap.values():
+        if category == 0:
+            apps[app.id] = app
+        elif category == app.category:
+            apps[app.id] = app
+    logMap = {}    
+    for app in apps.values():
+        logMap[app.id] = app.getLogContent()        
+    return render_template('consoleWall.html', logMap=logMap, appMap=apps, ajaxUrl=url_for('ajaxConsoleWall'))
+
+
+@app.route('/ajaxConsoleWall')
+@view_console_permission.require()
+def ajaxConsoleWall():
+    '''以json方式输出控制台日志'''
+    apps = {}    
+    category = session.get('category', 0)
+    for app in master.appMap.values():
+        if category == 0:
+            apps[app.id] = app
+        elif category == app.category:
+            apps[app.id] = app
+    logMap = {}    
+    for app in apps.values():
+        logMap[app.id] = app.getLogContent()    
+    return jsonify(logMap=logMap)    
+
+
 @app.route('/logConsole/<int:id>')
 @view_console_permission.require()
 def console(id):
