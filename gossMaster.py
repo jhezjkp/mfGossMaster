@@ -109,6 +109,8 @@ class Master(threading.Thread):
 	appMap = {}
 	#statusMap key-ip value-(1分钟负载，5分钟负载，15分钟负载，最后更新时间)
 	statusMap = {}
+	#备份队列 key-batchId value-[{agentIp:[(应用编号:备份文件名),]},]
+	backupQueueMap = {}
 
 	def __init__(self, masterPort):
 		super(Master, self).__init__()
@@ -161,7 +163,55 @@ class Master(threading.Thread):
 						app.configStatus = configStatus					
 						app.error = error
 			except socket.error:
-				self.logger.error(socket.error)				
+				self.logger.error(socket.error)
+
+	def submitBackupResult(self, batchId, ip, appId, fileName):
+		'''提交备份结果(代agent调用)'''
+		#备份队列 key-batchId value-[{agentIp:[(应用编号:备份文件名),]},]
+		data = self.backupQueueMap[batchId][ip]
+		theData = []
+		for id, tmp in data:
+			if id == appId:				
+				theData.append((id, fileName))
+				self.logger.info("=============%s %s %d %s", batchId, ip, appId, fileName)
+			else:
+				theData.append((id, tmp))
+		self.backupQueueMap[batchId][ip] = theData	
+		return SUCCESS
+
+	def getDatabaseBackupMap(self):
+		'''获取各agent的数据库备份文件列表'''
+		backupMap = {}
+		for ip, client in self.agentMap.items():
+			try:
+				backupMap[ip] = client.getDatabaseBackupList()
+			except socket.error:
+				self.logger.error(socket.error)
+		return backupMap
+
+
+	def backupDatabase(self, batchId, appIdList):
+		'''备份数据库'''
+		#需要进行分发执行更新的agent key-agentIp, value-该agent托管的、需要进行数据库备份的app id列表
+		batchData = {}
+		theAgentMap = {}
+		for id in appIdList:
+			ip = self.appMap[id].host
+			theList = theAgentMap.get(ip, list())
+			theList.append(id)
+			theAgentMap[ip] = theList			
+		#向各agent分发应用并执行数据库备份
+		for ip, theList in theAgentMap.items():
+			client = self.agentMap[ip]
+			self.logger.info("dispatch datababase backup batch [id=%s] to [%s], database for app%s will be backup...", batchId, ip, theList)
+			r = client.backupDatabase(batchId, theList)	
+			#增加到备份队列
+			tmpList = []
+			for theId in theList:
+				tmpList.append((theId, "-"))
+			batchData[ip] = tmpList
+		self.backupQueueMap[batchId] = batchData
+		return None
 
 	def updateApps(self, appIdList, fileName, binary):
 		'''更新应用'''
@@ -206,5 +256,6 @@ class Master(threading.Thread):
 		self.logger.info("Listening on port %d ...", self.masterPort)
 		server.register_function(self.register, "register")
 		server.register_function(self.updateAgentStatus, "updateAgentStatus")
+		server.register_function(self.submitBackupResult, "submitBackupResult")
 		server.serve_forever() 
 

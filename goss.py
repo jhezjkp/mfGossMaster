@@ -523,58 +523,30 @@ def updateGameScripts(id):
                 return render_template('script.html', gs=gs, infoMsg=parseScriptUpdateResult(result))
 
 
-
-def getReadableSize(sizeInbyte):
-    kb = sizeInbyte / 1024.0
-    if kb < 1024:
-        return '%.2fK' % kb
-    mb = kb / 1024.0
-    if mb < 1024:
-        return '%.2fM' % mb
-    gb = mb / 1024.0
-    return '%.2fG' % gb
-
-
 @app.route('/backupDb', methods=['GET', 'POST'])
 @backup_database_permission.require()
-def backupDatabase():
-    '''
-    backupPath = os.path.join(appPath, 'database')
-    backupFiles = []
-    for f in os.listdir(backupPath):
-        if f == ".gitignore":
-            continue
-        size = getReadableSize(os.path.getsize(os.path.join(backupPath, f)))
-        backupFiles.append((f, size))
-    '''
+def backupDatabase():    
     if request.method == 'GET':
+        backupMap = master.getDatabaseBackupMap()
         servers = []
         for server in master.appMap.values():
-            if server.type == 1 or type == 2:
+            if server.type == SERVER_LOGIN or server.type == SERVER_GAME:
                 servers.append(server)
         #return render_template('backupDb.html', servers=servers, backupFiles=backupFiles)
-        return render_template('backupDb.html', servers=servers, backupFiles=None)
+        return render_template('backupDb.html', appMap=master.appMap, servers=servers, backupMap=backupMap, queueMap=master.backupQueueMap)
     idList = request.form.getlist('id')
     if len(idList) == 0:
         return jsonify(msg=_('noServerSelected'))
-    servers = []
+    else:
+        #将id转为int
+        idList = map(lambda x: int(x), idList)
+    
     for id in idList:
-        server = appServerMap.get(int(id))
+        server = master.appMap.get(id)
         if server is None:
             return jsonify(msg=_('illegalServerId'))
-        servers.append(server)
-    #开始备份数据库
-    appendSuffix = datetime.datetime.now().strftime('_%Y%m%d_%H%M%S.sql')  # 默认文件备份后缀
-    for server in servers:
-        print '备份' + server.name + '数据库开始...'
-        cmd = "mysqldump -u" + server.dbUser + " -p'" + server.dbPassword + "' --port=" + str(server.dbPort) + " --skip-lock-tables --default-character-set=utf8 -h " + server.dbHost + " " + server.mainDb + " > " + os.path.join(backupPath, server.mainDb + appendSuffix)
-        print '备份主库...'
-        os.system(cmd)
-        cmd = "mysqldump -u" + server.dbUser + " -p'" + server.dbPassword + "' --port=" + str(server.dbPort) + " --skip-lock-tables --default-character-set=utf8 -h " + server.dbHost + " " + server.statDb + " > " + os.path.join(backupPath, server.statDb + appendSuffix)
-        print '备份统计库...'
-        os.system(cmd)
-        os.system(cmd)
-        print '备份' + server.name + '数据库完毕'
+    batchId = datetime.datetime.now().strftime('db_%Y%m%d_%H%M%S')
+    master.backupDatabase(batchId, idList) 
     return jsonify(msg=_('backupSuccess'))
 
 

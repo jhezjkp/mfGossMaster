@@ -31,7 +31,7 @@ function showResult(responseText, statusText, xhr, $form) {
 {% endblock %}
 
 {% block main %}
-    <div class="span6 offset3">
+    <div class="span8 offset2">
         <h1>{{_("databaseBackup")}}</h1>
         <div id="divDb">
             <fieldset>
@@ -44,9 +44,76 @@ function showResult(responseText, statusText, xhr, $form) {
                     <button type="submit" class="btn">{{_('backup')}}</button>                
                 </form>
             </fiedset>
-        </div>        
+        </div>
+        {% if queueMap|length > 0 %}
+            <div id="backupQueue">
+                <h2>{{_("backupQueue")}}</h2>
+                <table id="queueTable" class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>BATCH ID</th>
+                            <th>HOST</th>
+                            <th>STATUS</th>
+                        </tr>                    
+                    </thead>
+                {% for batchId, hostMap in queueMap.items(): %}
+                <tr>
+                    <td rowspan="{{hostMap|length}}">{{batchId}}</td>
+                    {% for ip, data in hostMap.items() %}
+                        {% if loop.first %}
+                                <td>{{ip}}</td>
+                                <td>                                
+                                    {% for item in data %}
+                                        <ul>
+                                            <li>{{appMap[item[0]].name}}:{{item[1]}}</li>
+                                        </ul>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>{{ip}}</td>
+                                <td>xxx</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </table>
+            </div>  
+        {% endif %}      
         <div id="msg"></div>
-
+        <div id="backupList">
+            <h2>{{_("backupFileList")}}</h2>
+            <table id="backupTable" class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>HOST</th>
+                        <th>BACKUP</th>
+                        <th>SIZE</th>
+                    </tr>                    
+                </thead>
+            {% for ip, items in backupMap.items(): %}
+            <tr>
+                <td rowspan="{{items|length}}">{{ip}}</td>
+                {% for item in items %}
+                    {% if loop.first %}
+                            <td>{{item[0]}}</td>
+                            <td>{{item[1]}}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td>{{item[0]}}</td>
+                            <td>{{item[1]}}</td>
+                        </tr>
+                    {% endif %}
+                {% else %}
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+            </table>
+        </div> 
         
     </div>    
 {% endblock %}
