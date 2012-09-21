@@ -4,7 +4,9 @@
 {% block nav %}
     <li><a href="/">Home</a></li>
     {% include 'appServerCatChooser.html' %}
-    <li><a href="../updateScripts">{{_("updateGameScripts")}}</a></li>    
+    <li><a href="consoleWall">{{_("consoleWall")}}</a></li>
+    <li class="active"><a href="updateApps">{{_("updateApp")}}</a></li>    
+    <li><a href="updateScripts">{{_("updateGameScripts")}}</a></li> 
     <li><a href="../backupDb">{{_("backupDatabase")}}</a></li>
 {% endblock %}
 

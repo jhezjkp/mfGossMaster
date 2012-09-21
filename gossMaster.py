@@ -7,6 +7,7 @@ goss中控
 
 import sys
 import time
+import datetime
 import logging
 import threading
 import xmlrpclib
@@ -27,6 +28,7 @@ class AppNode(object):
 		self.type = type
 		self.status = status
 		self.configStatus = configStatus
+		self.error = False
 		self.client = client
 		self.logger = logging.getLogger("goss.rpc")
 
@@ -104,7 +106,9 @@ class Master(threading.Thread):
 	#agentMap key-ip value-client
 	agentMap = {}	
 	#应用map key-id value-AppNode
-	appMap = {}	
+	appMap = {}
+	#statusMap key-ip value-(1分钟负载，5分钟负载，15分钟负载，最后更新时间)
+	statusMap = {}
 
 	def __init__(self, masterPort):
 		super(Master, self).__init__()
@@ -131,23 +135,33 @@ class Master(threading.Thread):
 			self.logger.info("register app 【%s】", name)			
 		return SUCCESS
 
-	def updateAppStatus(self, ip, port, statusTupleList):	
-		'''更新应用状态(供agent调用)'''	
+	def updateAgentStatus(self, ip, port, loadLine):	
+		'''更新agent宿主负载(供agent调用，做为心跳使用)'''	
+		data = [datetime.datetime.now()]		
+		data += map(lambda x: float(x), loadLine.split(' '))		
+		self.statusMap[ip] = data		
 		if ip not in self.agentMap:
 			self.logger.error("agent 【%s】 not registered yet...", ip + ":" + str(port))
-			return AGENT_NOT_REGISTER
-		for statusTuple in statusTupleList:
-			id = statusTuple[0]
-			status = statusTuple[1]
-			configStatus = statusTuple[2]
-			if id in self.appMap:
-				app = self.appMap[id]
-				app.status = status
-				app.configStatus = configStatus
-			else:
-				self.logger.error("app(id=%d) not registered yet...", id)
-				return AGENT_NOT_REGISTER
+			return AGENT_NOT_REGISTER		
 		return SUCCESS
+
+	def refreshAppStatusList(self):
+		'''获取各agent托管的各应用状态'''
+		for client in self.agentMap.values():
+			try:
+				statusTupleList = client.getAppStatusList()
+				for statusTuple in statusTupleList:
+					id = statusTuple[0]
+					status = statusTuple[1]
+					configStatus = statusTuple[2]
+					error = statusTuple[3]
+					if id in self.appMap:
+						app = self.appMap[id]
+						app.status = status
+						app.configStatus = configStatus					
+						app.error = error
+			except socket.error:
+				self.logger.error(socket.error)				
 
 	def updateApps(self, appIdList, fileName, binary):
 		'''更新应用'''
@@ -191,6 +205,6 @@ class Master(threading.Thread):
 		server = SimpleXMLRPCServer(("0.0.0.0", self.masterPort), allow_none=True, logRequests=False)
 		self.logger.info("Listening on port %d ...", self.masterPort)
 		server.register_function(self.register, "register")
-		server.register_function(self.updateAppStatus, "updateAppStatus")
+		server.register_function(self.updateAgentStatus, "updateAgentStatus")
 		server.serve_forever() 
 

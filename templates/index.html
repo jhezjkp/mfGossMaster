@@ -7,6 +7,7 @@
     <li><a href="updateApps">{{_("updateApp")}}</a></li>    
     <li><a href="updateScripts">{{_("updateGameScripts")}}</a></li>       
     <li><a href="backupDb">{{_("backupDatabase")}}</a></li>
+    <li><a href="agentStatus">{{_("agentStatus")}}</a></li>
 {% endblock %}
 
 {% block head %}
@@ -47,11 +48,10 @@
     <div id="vindicateDlg" class="modal hide fade">
         <div class="modal-header">
           <a href="#" class="close">&times;</a>
-          <h3>Delete URL</h3>
+          <h3>{{_("operateConfirm")}}</h3>
         </div>
         <div class="modal-body">
-          <p>You are about to delete one track url, this procedure is irreversible.</p>
-          <p>Do you want to proceed?</p>
+          <p>{{_("vindicateConfirm")}}</p>          
         </div>
         <div class="modal-footer">
           <a href="#" class="btn danger">Yes</a>

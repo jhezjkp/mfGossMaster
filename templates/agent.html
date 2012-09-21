@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block nav %}
+    <li><a href="/">Home</a></li>
+    {% include 'appServerCatChooser.html' %}
+    <li><a href="consoleWall">{{_("consoleWall")}}</a></li>
+    <li><a href="updateApps">{{_("updateApp")}}</a></li>    
+    <li><a href="updateScripts">{{_("updateGameScripts")}}</a></li>       
+    <li><a href="backupDb">{{_("backupDatabase")}}</a></li>
+    <li class="active"><a href="agentStatus">{{_("agentStatus")}}</a></li>
+{% endblock %}
+
+{% block head %}
+<style type="text/css">       
+    .table tbody tr.stop td { background-color: gray; }
+</style>
+<script type="text/javascript">   
+    $(function() {
+        
+    });    
+</script>
+{% endblock %}
+
+{% block main %}    
+    <!-- 页面 -->
+    <div id="agentList">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td>{{_("agent.ip")}}</td>
+                    <td>{{_("agent.apps")}}</td>
+                    <td>{{_("agent.load")}}</td>
+                    <td>{{_("agent.lastUpdateTime")}}</td>                    
+                    <td>{{_("agent.status")}}</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ip, data in agentStatusMap.items() %}
+                    <tr>                        
+                        <td>{{ ip }}</td>                        
+                        <td>
+                            {% for app in appMap.values() %}
+                                {% if app.host==ip %}
+                                    {% if app.status==0: %}                                
+                                        <span class="label">{{app.name}}</span>
+                                    {% else: %}                        
+                                        {% if app.status == 1: %}
+                                            {% if app.error: %}                                        
+                                                <span class="label label-important">{{app.name}}</span>
+                                            {% else: %}                                        
+                                                <span class="label label-success">{{app.name}}</span>
+                                            {% endif %}
+                                        {% elif app.status ==2: %}                                
+                                            <span class="label label-info">{{app.name}}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </td>                        
+                        <td>
+                            {% for load in data[1:4] %}
+                                {% if load > 4.0 %}
+                                    <span class="badge badge-important">{{load}}</span>
+                                {% else %}
+                                    <span class="badge badge-success">{{load}}</span>
+                                {% endif %}
+                            {% endfor %}                            
+                        </td>                        
+                        <td>
+                            {{ data[0] | datetimeformat }}
+                        </td>     
+                        <td>
+                            {% if data[4].total_seconds() < 300  %}
+                                <span class="label label-success">{{_("agent.online")}}</span>
+                            {% else %}
+                                <span class="label label-important">{{_("agent.offline")}}</span>
+                            {% endif %}
+                        </td>                                           
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

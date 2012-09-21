@@ -22,6 +22,7 @@
             <action>view_console</action>
             <action>switch_sync_config</action>            
             <action>backup_database</action>
+            <action>view_agent</action>
         </actions>
     </role>
 
@@ -49,6 +50,7 @@
             <action>view_console</action>
             <action>switch_sync_config</action>
             <action>backup_database</action>
+            <action>view_agent</action>
         </actions>
     </role>
 

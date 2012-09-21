@@ -16,6 +16,7 @@ import xml.dom.minidom
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for, session, jsonify
 from flaskext.principal import Principal, Permission, ActionNeed, TypeNeed, Identity, identity_changed, PermissionDenied
 from flaskext.babel import Babel, gettext as _
+from jinja2 import environmentfilter
 import zerorpc
 
 from gossMaster import Master
@@ -47,6 +48,7 @@ update_script_permission = Permission(ActionNeed('update_script'))
 update_app_permission = Permission(ActionNeed('update_app'))
 vindicate_game_permission = Permission(ActionNeed('vindicate_game'))
 view_console_permission = Permission(ActionNeed('view_console'))
+view_agent_permission = Permission(ActionNeed('view_agent'))
 switch_sync_config_permission = Permission(ActionNeed('switch_sync_config'))
 backup_database_permission = Permission(ActionNeed('backup_database'))
 #游戏服启停操作
@@ -114,6 +116,11 @@ def page_not_found(e):
 #def page_not_found(e):
 #    return Response('Login failed')
 
+@environmentfilter
+def datetimeformat(value, format='%H:%M %d-%m-%Y'):
+    '''日期格式化filter'''
+    return value.strftime(format)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -159,7 +166,9 @@ def favicon():
 @app.route('/')
 @auth_permission.require()
 def index(successMsg=None, errorMsg=None):
-    #首页(检查各服状态)
+    '''首页(检查各服状态)'''
+    #刷新应用状态
+    master.refreshAppStatusList()
     servers = {}
     category = session.get('category', 0)
     for server in master.appMap.values():
@@ -333,7 +342,20 @@ def ajaxConsole(id):
         return jsonify(log=app.getLogContent())
 
 
+@app.route('/agentStatus')
+@view_agent_permission.require()
+def agentStatus():
+    '''查看agent状态'''    
+    theMap = {}
+    now = datetime.datetime.now()
+    for ip, data in master.statusMap.items():
+        theData = [] + data
+        theData.append(now - data[0])
+        theMap[ip] = theData
+    return render_template('agent.html', agentStatusMap=theMap, appMap=master.appMap)
+
 def parseAppUpdateResult(result):
+    '''解析应用更新结果'''
     msg = ""
     for key, value in result.items():
         for id, code in value:
@@ -414,6 +436,7 @@ def updateApp(id):
 
 
 def parseScriptUpdateResult(result):
+    '''解析脚本更新结果'''
     #result格式：key-agent ip value-([(应用编号, 需要更新的脚本数, 成功更新的脚本数),], 更新日志)
     msg = ""
     logStr = ""
@@ -515,6 +538,7 @@ def getReadableSize(sizeInbyte):
 @app.route('/backupDb', methods=['GET', 'POST'])
 @backup_database_permission.require()
 def backupDatabase():
+    '''
     backupPath = os.path.join(appPath, 'database')
     backupFiles = []
     for f in os.listdir(backupPath):
@@ -522,12 +546,14 @@ def backupDatabase():
             continue
         size = getReadableSize(os.path.getsize(os.path.join(backupPath, f)))
         backupFiles.append((f, size))
+    '''
     if request.method == 'GET':
         servers = []
-        for server in appServerMap.values():
+        for server in master.appMap.values():
             if server.type == 1 or type == 2:
                 servers.append(server)
-        return render_template('backupDb.html', servers=servers, backupFiles=backupFiles)
+        #return render_template('backupDb.html', servers=servers, backupFiles=backupFiles)
+        return render_template('backupDb.html', servers=servers, backupFiles=None)
     idList = request.form.getlist('id')
     if len(idList) == 0:
         return jsonify(msg=_('noServerSelected'))
@@ -640,7 +666,7 @@ if __name__ == '__main__':
     reload(sys)
     sys.setdefaultencoding('utf-8')
     logger = initLogger()
-    loadConfig()
+    loadConfig()    
     app.run(host='0.0.0.0', port=httpPort, debug=True, use_reloader=False)
 
 
