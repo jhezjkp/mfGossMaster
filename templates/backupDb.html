@@ -73,7 +73,13 @@ function showResult(responseText, statusText, xhr, $form) {
                         {% else %}
                             <tr>
                                 <td>{{ip}}</td>
-                                <td>xxx</td>
+                                <td>
+                                    {% for item in data %}
+                                        <ul>
+                                            <li>{{appMap[item[0]].name}}:{{item[1]}}</li>
+                                        </ul>
+                                    {% endfor %}                                    
+                                </td>
                             </tr>
                         {% endif %}
                     {% endfor %}
