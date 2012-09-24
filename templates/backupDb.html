@@ -56,6 +56,7 @@ function showResult(responseText, statusText, xhr, $form) {
                             <th>STATUS</th>
                         </tr>                    
                     </thead>
+                <!--备份队列 key-batchId value-[{agentIp:[{应用编号:[备份文件名,]},]},]-->
                 {% for batchId, hostMap in queueMap.items(): %}
                 <tr>
                     <td rowspan="{{hostMap|length}}">{{batchId}}</td>
@@ -64,9 +65,17 @@ function showResult(responseText, statusText, xhr, $form) {
                                 <td>{{ip}}</td>
                                 <td>                                
                                     {% for item in data %}
-                                        <ul>
-                                            <li>{{appMap[item[0]].name}}:{{item[1]}}</li>
-                                        </ul>
+                                        {% for key, value in item.items() %}
+                                            <ul>
+                                                <li>{{appMap[key].name}}:
+                                                    {% if value | length == 0 %}
+                                                    inprogress
+                                                    {% else %}
+                                                    {{value|join(" ")}}
+                                                    {% endif %}
+                                                </li>
+                                            </ul>
+                                        {% endfor %}
                                     {% endfor %}
                                 </td>
                             </tr>
@@ -75,10 +84,18 @@ function showResult(responseText, statusText, xhr, $form) {
                                 <td>{{ip}}</td>
                                 <td>
                                     {% for item in data %}
-                                        <ul>
-                                            <li>{{appMap[item[0]].name}}:{{item[1]}}</li>
-                                        </ul>
-                                    {% endfor %}                                    
+                                        {% for key, value in item.items() %}
+                                            <ul>
+                                                <li>{{appMap[key].name}}:
+                                                    {% if value | length == 0 %}
+                                                    inprogress
+                                                    {% else %}
+                                                    {{value|join(" ")}}
+                                                    {% endif %}
+                                                </li>
+                                            </ul>
+                                        {% endfor %}
+                                    {% endfor %}
                                 </td>
                             </tr>
                         {% endif %}

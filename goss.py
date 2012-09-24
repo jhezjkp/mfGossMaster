@@ -526,7 +526,6 @@ def backupDatabase():
         for server in master.appMap.values():
             if server.type == SERVER_LOGIN or server.type == SERVER_GAME:
                 servers.append(server)
-        #return render_template('backupDb.html', servers=servers, backupFiles=backupFiles)
         return render_template('backupDb.html', appMap=master.appMap, servers=servers, backupMap=backupMap, queueMap=master.backupQueueMap)
     idList = request.form.getlist('id')
     if len(idList) == 0:

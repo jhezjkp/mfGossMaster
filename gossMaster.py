@@ -99,7 +99,7 @@ class AppNode(object):
 
 
 class Master(threading.Thread):
-    '''goss中控'''
+    '''goss主控'''
 
     #agentMap key-ip value-client
     agentMap = {}
@@ -107,7 +107,7 @@ class Master(threading.Thread):
     appMap = {}
     #statusMap key-ip value-(1分钟负载，5分钟负载，15分钟负载，最后更新时间)
     statusMap = {}
-    #备份队列 key-batchId value-[{agentIp:[(应用编号:备份文件名),]},]
+    #备份队列 key-batchId value-[{agentIp:[{应用编号:[备份文件名,]},]},]
     backupQueueMap = {}
 
     def __init__(self, masterPort):
@@ -170,14 +170,11 @@ class Master(threading.Thread):
         '''提交备份结果(代agent调用)'''
         #备份队列 key-batchId value-[{agentIp:[(应用编号:备份文件名),]},]
         data = self.backupQueueMap[batchId][ip]
-        theData = []
-        for id, tmp in data:
-            if id == appId:
-                theData.append((id, fileName))
-                self.logger.info("=============%s %s %d %s", batchId, ip, appId, fileName)
-            else:
-                theData.append((id, tmp))
-        self.backupQueueMap[batchId][ip] = theData
+        for singleHostMap in data:
+            for id, theData in singleHostMap.items():
+                if id == appId:
+                    theData.append(fileName)
+                    self.logger.info("=============%s %s %d %s", batchId, ip, appId, fileName)
         return SUCCESS
 
     def getDatabaseBackupMap(self):
@@ -208,7 +205,7 @@ class Master(threading.Thread):
             #增加到备份队列
             tmpList = []
             for theId in theList:
-                tmpList.append((theId, "-"))
+                tmpList.append({theId: []})
             batchData[ip] = tmpList
         self.backupQueueMap[batchId] = batchData
         return None
