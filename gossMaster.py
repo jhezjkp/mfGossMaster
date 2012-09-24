@@ -13,7 +13,7 @@ import socket
 import base64
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 
-from constants import SUCCESS, CONNECTION_REFUSED, SERVER_GAME, SERVER_LOGIN, STATUS_STOP, ILEGAL_OPERATE, AGENT_NOT_REGISTER
+from constants import APP_VERSION, NEED_UPDATE, SUCCESS, CONNECTION_REFUSED, SERVER_GAME, SERVER_LOGIN, STATUS_STOP, ILEGAL_OPERATE, AGENT_NOT_REGISTER
 
 
 class AppNode(object):
@@ -117,9 +117,12 @@ class Master(threading.Thread):
         #确保主线程退出时，本线程也退出
         self.daemon = True
 
-    def register(self, ip, port, apps):
+    def register(self, ip, port, version, apps):
         '''注册应用(供agent调用)'''
-        #agent
+        #先进行程序版本判断，确认客户端是否需要进行更新
+        if APP_VERSION > version:
+            return NEED_UPDATE
+        #创建agent
         client = xmlrpclib.ServerProxy("http://" + ip + ":" + str(port), encoding='utf-8')
         self.agentMap[ip] = client
         self.logger.info("register agent 【%s】", ip + ":" + str(port))

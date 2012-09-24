@@ -3,6 +3,11 @@
 '''
 通用常量定义
 '''
+#程序版本号,当gossAgent和gossMaster的RPC方法有变更时，请提升该版本号                                                                |~
+APP_VERSION = 1
+
+#程序需要更新                                                                                                                       |~
+NEED_UPDATE = 8888
 
 #连接被拒绝
 CONNECTION_REFUSED = -9999
