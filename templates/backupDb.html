@@ -6,7 +6,7 @@
 $(function(){
         var options = {
             beforeSubmit: function() {
-            $('#msg').html('{{_("backupDbNotice")}}');
+                $('#msg').html('{{_("backupDbNotice")}}');
             },
             success: showResult
         }
@@ -28,6 +28,7 @@ function showResult(responseText, statusText, xhr, $form) {
     <li><a href="updateApps">{{_("updateApp")}}</a></li> 
     <li><a href="updateScripts">{{_("updateGameScripts")}}</a></li>    
     <li class="active"><a href="backupDb">{{_("backupDatabase")}}</a></li>
+    <li><a href="agentStatus">{{_("agentStatus")}}</a></li>
 {% endblock %}
 
 {% block main %}

@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 
 {% block head %}
-<!--
-<meta http-equiv="refresh" content="5" />
--->
 <script type="text/javascript"> 
 function getLogContent() {
 	$.ajax({
@@ -34,6 +31,7 @@ $(getLogContent);
     <li><a href="../questScriptGen">{{_("generateQuestScripts")}}</a></li>                     
     <li><a href="../encryptScripts">{{_("encryptScripts")}}</a></li>
     <li><a href="../backupDb">{{_("backupDatabase")}}</a></li>
+    <li><a href="../agentStatus">{{_("agentStatus")}}</a></li>
 {% endblock %}
 
 {% block main %}
