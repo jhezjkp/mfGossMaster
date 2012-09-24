@@ -9,7 +9,7 @@ import hashlib
 import xml.dom.minidom
 
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for, session, jsonify
-from flaskext.principal import Principal, Permission, ActionNeed, TypeNeed, Identity, identity_changed, PermissionDenied
+from flask.ext.principal import Principal, Permission, ActionNeed, TypeNeed, Identity, identity_changed, PermissionDenied
 from flaskext.babel import Babel, gettext as _
 from jinja2 import environmentfilter
 
