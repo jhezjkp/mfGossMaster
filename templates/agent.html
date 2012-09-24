@@ -70,7 +70,7 @@
                             {{ data[0] | datetimeformat }}
                         </td>     
                         <td>
-                            {% if data[4].total_seconds() < 300  %}
+                            {% if data[4].total_seconds() < 180  %}
                                 <span class="label label-success">{{_("agent.online")}}</span>
                             {% else %}
                                 <span class="label label-important">{{_("agent.offline")}}</span>
