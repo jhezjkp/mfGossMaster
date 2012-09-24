@@ -3,11 +3,6 @@
 
 import sys
 import os
-import re
-import subprocess
-import threading
-import time
-import shutil
 import datetime
 import logging
 import hashlib
@@ -17,10 +12,9 @@ from flask import Flask, render_template, send_from_directory, request, redirect
 from flaskext.principal import Principal, Permission, ActionNeed, TypeNeed, Identity, identity_changed, PermissionDenied
 from flaskext.babel import Babel, gettext as _
 from jinja2 import environmentfilter
-import zerorpc
 
 from gossMaster import Master
-from constants import *
+from constants import SUCCESS, SERVER_GAME, SERVER_LOGIN, CONNECTION_REFUSED, STATUS_RUN, STATUS_VINDICATE
 
 
 #web监听端口
@@ -219,7 +213,6 @@ def startApp(id):
         return redirect(url_for('index', errorMsg=errorMsg))
 
 
-
 @app.route('/stopApp/<int:id>')
 def stopApp(id):
     '''停止应用'''
@@ -279,16 +272,16 @@ def changeSyncConfig(serverId, status):
 @view_console_permission.require()
 def consoleWall():
     '''查看控制台日志'''
-    apps = {}    
+    apps = {}
     category = session.get('category', 0)
     for app in master.appMap.values():
         if category == 0:
             apps[app.id] = app
         elif category == app.category:
             apps[app.id] = app
-    logMap = {}    
+    logMap = {}
     for app in apps.values():
-        logMap[app.id] = app.getLogContent()        
+        logMap[app.id] = app.getLogContent()
     return render_template('consoleWall.html', logMap=logMap, appMap=apps, ajaxUrl=url_for('ajaxConsoleWall'))
 
 
@@ -296,17 +289,17 @@ def consoleWall():
 @view_console_permission.require()
 def ajaxConsoleWall():
     '''以json方式输出控制台日志'''
-    apps = {}    
+    apps = {}
     category = session.get('category', 0)
     for app in master.appMap.values():
         if category == 0:
             apps[app.id] = app
         elif category == app.category:
             apps[app.id] = app
-    logMap = {}    
+    logMap = {}
     for app in apps.values():
-        logMap[app.id] = app.getLogContent()    
-    return jsonify(logMap=logMap)    
+        logMap[app.id] = app.getLogContent()
+    return jsonify(logMap=logMap)
 
 
 @app.route('/logConsole/<int:id>')
@@ -345,7 +338,7 @@ def ajaxConsole(id):
 @app.route('/agentStatus')
 @view_agent_permission.require()
 def agentStatus():
-    '''查看agent状态'''    
+    '''查看agent状态'''
     theMap = {}
     now = datetime.datetime.now()
     for ip, data in master.statusMap.items():
@@ -353,6 +346,7 @@ def agentStatus():
         theData.append(now - data[0])
         theMap[ip] = theData
     return render_template('agent.html', agentStatusMap=theMap, appMap=master.appMap)
+
 
 def parseAppUpdateResult(result):
     '''解析应用更新结果'''
@@ -370,10 +364,10 @@ def parseAppUpdateResult(result):
 @app.route('/updateApps', methods=['GET', 'POST'])
 @update_app_permission.require(http_exception=403)
 def updateMultyApps():
-    '''更新多个应用程序'''    
+    '''更新多个应用程序'''
     if request.method == 'GET':
         return render_template('mjar.html', gameServers=master.appMap.values())
-    else:        
+    else:
         f = request.files['jar']
         if not f:
             return render_template('mjar.html', gameServers=master.appMap.values(), errorMsg='请上传一个需要更新的程序包')
@@ -387,7 +381,7 @@ def updateMultyApps():
                 else:
                     #将id转为int
                     ids = map(lambda x: int(x), ids)
-                try:                                             
+                try:
                     basePath = appPath
                     path = os.path.join(basePath, 'uploads')
                     fileName = datetime.datetime.now().strftime('app_%Y%m%d_%H%M%S.jar')
@@ -420,7 +414,7 @@ def updateApp(id):
                 if not f.filename.endswith('.jar'):
                     return render_template('jar.html', gs=gs, errorMsg="请传jar包")
                 else:
-                    try:                                             
+                    try:
                         basePath = appPath
                         path = os.path.join(basePath, 'uploads')
                         fileName = datetime.datetime.now().strftime('app_%Y%m%d_%H%M%S.jar')
@@ -428,7 +422,7 @@ def updateApp(id):
                         f.save(appJar)
                         f.close()
                         f = open(appJar, "rb")
-                        result = master.updateApps([id,], fileName, f.read())
+                        result = master.updateApps([id, ], fileName, f.read())
                         f.close()
                     except:
                         return render_template('jar.html', gs=gs, errorMsg=str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
@@ -441,13 +435,13 @@ def parseScriptUpdateResult(result):
     msg = ""
     logStr = ""
     for key, value in result.items():
-        logStr += "=========【" + key + "】更新结果==========<br/>" + value[1]        
+        logStr += "=========【" + key + "】更新结果==========<br/>" + value[1]
         for id, scriptsCount, successCount in value[0]:
-            name = master.appMap[id].name            
-            if scriptsCount == successCount:                
+            name = master.appMap[id].name
+            if scriptsCount == successCount:
                 msg += key + "  " + name + "  更新成功<br/>"
             else:
-                failCount = scriptsCount - successCount                
+                failCount = scriptsCount - successCount
                 msg += key + "  " + name + "  " + str(failCount) + "个脚本更新失败<br/>"
     return msg + logStr
 
@@ -468,7 +462,7 @@ def multyScriptUpdate():
             ids = map(lambda x: int(x), ids)
         f = request.files['script']
         if not f:
-            return render_template('mscript.html', gameServers=gameServers, errorMsg=_("noFileUploaded"))        
+            return render_template('mscript.html', gameServers=gameServers, errorMsg=_("noFileUploaded"))
         try:
             basePath = appPath
             path = os.path.join(basePath, 'uploads')
@@ -480,7 +474,7 @@ def multyScriptUpdate():
             fileName = f.filename
             f.save(os.path.join(path, fileName))
             f.close()
-            f = open(os.path.join(path, fileName), "rb")            
+            f = open(os.path.join(path, fileName), "rb")
             result = master.updateScripts(ids, fileName, f.read())
             f.close()
             return render_template('mscript.html', gameServers=gameServers, infoMsg=parseScriptUpdateResult(result))
@@ -517,7 +511,7 @@ def updateGameScripts(id):
                 fileName = f.filename
                 f.save(os.path.join(path, fileName))
                 f.close()
-                f = open(os.path.join(path, fileName), "rb")            
+                f = open(os.path.join(path, fileName), "rb")
                 result = master.updateScripts([id], fileName, f.read())
                 f.close()
                 return render_template('script.html', gs=gs, infoMsg=parseScriptUpdateResult(result))
@@ -525,7 +519,7 @@ def updateGameScripts(id):
 
 @app.route('/backupDb', methods=['GET', 'POST'])
 @backup_database_permission.require()
-def backupDatabase():    
+def backupDatabase():
     if request.method == 'GET':
         backupMap = master.getDatabaseBackupMap()
         servers = []
@@ -540,13 +534,13 @@ def backupDatabase():
     else:
         #将id转为int
         idList = map(lambda x: int(x), idList)
-    
+
     for id in idList:
         server = master.appMap.get(id)
         if server is None:
             return jsonify(msg=_('illegalServerId'))
     batchId = datetime.datetime.now().strftime('db_%Y%m%d_%H%M%S')
-    master.backupDatabase(batchId, idList) 
+    master.backupDatabase(batchId, idList)
     return jsonify(msg=_('backupSuccess'))
 
 
@@ -568,18 +562,6 @@ def hashFile(filePath):
             sha1obj.update(f.read())
         '''
     return sha1obj.hexdigest()
-
-
-
-
-def getProcessIdByAppName(appName):
-    '''根据应用名来获取程序的进程编号'''
-    pid = -1
-    cmd = "ps aux | grep " + appName + " | grep -v grep | awk '{print $2}'| tr -d '\n'"
-    output = subprocess.check_output(["/bin/bash", "-c", cmd])
-    if len(output) > 0:
-        pid = int(output)
-    return pid
 
 
 def loadConfig():
@@ -638,7 +620,5 @@ if __name__ == '__main__':
     reload(sys)
     sys.setdefaultencoding('utf-8')
     logger = initLogger()
-    loadConfig()    
+    loadConfig()
     app.run(host='0.0.0.0', port=httpPort, debug=True, use_reloader=False)
-
-

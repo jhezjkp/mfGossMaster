@@ -35,4 +35,3 @@ FAIL = 1
 
 #非法操作
 ILEGAL_OPERATE = 2
-
