@@ -1,4 +1,4 @@
-#GossMaster[![Build Status](https://secure.travis-ci.org/jhezjkp/mfGossMaster.png)](http://travis-ci.org/jhezjkp/mfGossMaster)
+#GossMaster [![Build Status](https://secure.travis-ci.org/jhezjkp/mfGossMaster.png)](http://travis-ci.org/jhezjkp/mfGossMaster) [![endorse](http://api.coderwall.com/jhezjkp/endorsecount.png)](http://coderwall.com/jhezjkp)
 
 Goss Master is the master part of the Goss(Game Operation Support System), which enables people manage their game servers easier.
 
