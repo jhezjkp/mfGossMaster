@@ -541,7 +541,7 @@ def backupDatabase():
             return jsonify(msg=_('illegalServerId'))
     batchId = datetime.datetime.now().strftime('db_%Y%m%d_%H%M%S')
     master.backupDatabase(batchId, idList)
-    return jsonify(msg=_('backupSuccess'))
+    return jsonify(msg=_('backupOrderSent'))
 
 
 def hashFile(filePath):

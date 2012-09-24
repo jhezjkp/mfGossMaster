@@ -1,2 +1,2 @@
 #!/bin/bash
-nohup  python gossMaster.py > nohup.out 2>&1  &
+nohup  python goss.py > nohup.out 2>&1  &

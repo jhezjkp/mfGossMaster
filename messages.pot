@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-09-05 18:12+0800\n"
+"POT-Creation-Date: 2012-09-24 11:16+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,83 +17,120 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: goss.py:298 goss.py:329 goss.py:367 goss.py:393 goss.py:409 goss.py:420
-#: goss.py:587
+#: goss.py:200 goss.py:221 goss.py:243 goss.py:262 goss.py:311 goss.py:322
+#: goss.py:333 goss.py:405 goss.py:495
 msgid "serverNotExist"
 msgstr ""
 
-#: goss.py:553
+#: goss.py:210 goss.py:231 goss.py:251
+msgid "RPCCallFail"
+msgstr ""
+
+#: goss.py:380 goss.py:459
 msgid "atLeastOneGameServerRequired"
 msgstr ""
 
-#: goss.py:557 goss.py:594
+#: goss.py:465 goss.py:502
 msgid "noFileUploaded"
 msgstr ""
 
-#: goss.py:601
-msgid "unSupportedFileType"
-msgstr ""
-
-#: goss.py:724
+#: goss.py:533
 msgid "noServerSelected"
 msgstr ""
 
-#: goss.py:729
+#: goss.py:541
 msgid "illegalServerId"
 msgstr ""
 
-#: goss.py:743
-msgid "backupSuccess"
+#: goss.py:544
+msgid "backupOrderSent"
+msgstr ""
+
+#: templates/agent.html:6 templates/backupDb.html:27
+#: templates/consoleWall.html:35 templates/index.html:6 templates/jar.html:7
+#: templates/mjar.html:7 templates/mscript.html:6 templates/script.html:6
+msgid "consoleWall"
+msgstr ""
+
+#: templates/agent.html:7 templates/backupDb.html:28
+#: templates/consoleWall.html:36 templates/index.html:7
+#: templates/index.html:144 templates/index.html:151 templates/jar.html:8
+#: templates/mjar.html:8 templates/mscript.html:7 templates/script.html:7
+msgid "updateApp"
+msgstr ""
+
+#: templates/agent.html:8 templates/backupDb.html:29 templates/console.html:33
+#: templates/consoleWall.html:37 templates/index.html:8
+#: templates/index.html:145 templates/index.html:152 templates/jar.html:9
+#: templates/mjar.html:9 templates/mscript.html:8 templates/mscript.html:24
+#: templates/script.html:8 templates/script.html:17
+msgid "updateGameScripts"
+msgstr ""
+
+#: templates/agent.html:9 templates/backupDb.html:30 templates/console.html:36
+#: templates/consoleWall.html:38 templates/index.html:9 templates/jar.html:10
+#: templates/mjar.html:10 templates/mscript.html:9 templates/script.html:9
+msgid "backupDatabase"
+msgstr ""
+
+#: templates/agent.html:10 templates/index.html:10
+msgid "agentStatus"
+msgstr ""
+
+#: templates/agent.html:30
+msgid "agent.ip"
+msgstr ""
+
+#: templates/agent.html:31
+msgid "agent.apps"
+msgstr ""
+
+#: templates/agent.html:32
+msgid "agent.load"
+msgstr ""
+
+#: templates/agent.html:33
+msgid "agent.lastUpdateTime"
+msgstr ""
+
+#: templates/agent.html:34
+msgid "agent.status"
+msgstr ""
+
+#: templates/agent.html:74
+msgid "agent.online"
+msgstr ""
+
+#: templates/agent.html:76
+msgid "agent.offline"
 msgstr ""
 
 #: templates/appServerCatChooser.html:4 templates/appServerCatChooser.html:12
 msgid "app.allcategory"
 msgstr ""
 
-#: templates/backupDb.html:7
+#: templates/backupDb.html:9
 msgid "backupDbNotice"
 msgstr ""
 
-#: templates/backupDb.html:35 templates/encryptScripts.html:7
-#: templates/index.html:6 templates/index.html:89 templates/index.html:96
-#: templates/mscript.html:6 templates/mscript.html:22
-#: templates/questScriptGen.html:7 templates/script.html:5
-msgid "updateGameScripts"
-msgstr ""
-
-#: templates/backupDb.html:36 templates/encryptScripts.html:8
-#: templates/index.html:7 templates/mscript.html:7
-#: templates/questScriptGen.html:8 templates/questScriptGen.html:14
-msgid "generateQuestScripts"
-msgstr ""
-
-#: templates/backupDb.html:37 templates/encryptScripts.html:9
-#: templates/encryptScripts.html:14 templates/index.html:8
-#: templates/mscript.html:8 templates/questScriptGen.html:9
-msgid "encryptScripts"
-msgstr ""
-
-#: templates/backupDb.html:38 templates/encryptScripts.html:10
-#: templates/index.html:9 templates/mscript.html:9
-#: templates/questScriptGen.html:10
-msgid "backupDatabase"
-msgstr ""
-
-#: templates/backupDb.html:42
+#: templates/backupDb.html:35
 msgid "databaseBackup"
 msgstr ""
 
-#: templates/backupDb.html:49
+#: templates/backupDb.html:44
 msgid "backup"
 msgstr ""
 
-#: templates/backupDb.html:56
+#: templates/backupDb.html:50
+msgid "backupQueue"
+msgstr ""
+
+#: templates/backupDb.html:92
 msgid "backupFileList"
 msgstr ""
 
-#: templates/base.html:4 templates/console.html:2 templates/denied.html:4
-#: templates/jar.html:2 templates/login.html:4 templates/login.html:14
-#: templates/script.html:2
+#: templates/base.html:4 templates/denied.html:4 templates/login.html:4
+#: templates/login.html:20
 msgid "siteTitle"
 msgstr ""
 
@@ -101,153 +138,161 @@ msgstr ""
 msgid "logout"
 msgstr ""
 
-#: templates/console.html:6
+#: templates/console.html:34
+msgid "generateQuestScripts"
+msgstr ""
+
+#: templates/console.html:35
+msgid "encryptScripts"
+msgstr ""
+
+#: templates/console.html:41
 msgid "consoleLog"
 msgstr ""
 
-#: templates/encryptScripts.html:16 templates/questScriptGen.html:16
-msgid "uploadGameScripts"
+#: templates/index.html:51
+msgid "operateConfirm"
 msgstr ""
 
-#: templates/encryptScripts.html:17 templates/jar.html:6
-#: templates/mscript.html:24 templates/questScriptGen.html:17
-#: templates/script.html:7
-msgid "upload"
+#: templates/index.html:54
+msgid "vindicateConfirm"
 msgstr ""
 
-#: templates/index.html:17
+#: templates/index.html:68
 msgid "app.id"
 msgstr ""
 
-#: templates/index.html:18
+#: templates/index.html:69
 msgid "app.name"
 msgstr ""
 
-#: templates/index.html:19
+#: templates/index.html:70
 msgid "app.category"
 msgstr ""
 
-#: templates/index.html:20
-msgid "app.type"
-msgstr ""
-
-#: templates/index.html:21
-msgid "app.runStatus"
-msgstr ""
-
-#: templates/index.html:22
-msgid "app.errorStatus"
-msgstr ""
-
-#: templates/index.html:23
-msgid "app.operate"
-msgstr ""
-
-#: templates/index.html:24
-msgid "app.config"
-msgstr ""
-
-#: templates/index.html:43
-msgid "gateServer"
-msgstr ""
-
-#: templates/index.html:45
-msgid "loginServer"
-msgstr ""
-
-#: templates/index.html:47
-msgid "gameServer"
-msgstr ""
-
-#: templates/index.html:49
-msgid "resourceServer"
-msgstr ""
-
-#: templates/index.html:51
-msgid "unknownType"
+#: templates/index.html:71
+msgid "app.host"
 msgstr ""
 
 #: templates/index.html:72
-msgid "errorDetected"
+msgid "app.type"
+msgstr ""
+
+#: templates/index.html:73
+msgid "app.runStatus"
 msgstr ""
 
 #: templates/index.html:74
+msgid "app.errorStatus"
+msgstr ""
+
+#: templates/index.html:75
+msgid "app.operate"
+msgstr ""
+
+#: templates/index.html:76
+msgid "app.config"
+msgstr ""
+
+#: templates/index.html:99
+msgid "gateServer"
+msgstr ""
+
+#: templates/index.html:101
+msgid "loginServer"
+msgstr ""
+
+#: templates/index.html:103
+msgid "gameServer"
+msgstr ""
+
+#: templates/index.html:105
+msgid "resourceServer"
+msgstr ""
+
+#: templates/index.html:107
+msgid "unknownType"
+msgstr ""
+
+#: templates/index.html:128
+msgid "errorDetected"
+msgstr ""
+
+#: templates/index.html:130
 msgid "normal"
 msgstr ""
 
-#: templates/index.html:81 templates/index.html:84
+#: templates/index.html:137 templates/index.html:140
 msgid "startApp"
 msgstr ""
 
-#: templates/index.html:85
+#: templates/index.html:141
 msgid "startVindicateApp"
 msgstr ""
 
-#: templates/index.html:88 templates/index.html:95
-msgid "updateApp"
-msgstr ""
-
-#: templates/index.html:90 templates/index.html:97
+#: templates/index.html:146 templates/index.html:153
 msgid "viewConsole"
 msgstr ""
 
-#: templates/index.html:93
+#: templates/index.html:149
 msgid "stopApp"
 msgstr ""
 
-#: templates/index.html:104
+#: templates/index.html:160
 msgid "normalConfig"
 msgstr ""
 
-#: templates/index.html:104
+#: templates/index.html:160
 msgid "switchToSyncConfig"
 msgstr ""
 
-#: templates/index.html:106
+#: templates/index.html:162
 msgid "syncConfig"
 msgstr ""
 
-#: templates/index.html:106
+#: templates/index.html:162
 msgid "switchToNormalConfig"
 msgstr ""
 
-#: templates/index.html:108
+#: templates/index.html:164
 msgid "mixConfig"
 msgstr ""
 
-#: templates/jar.html:3 templates/mscript.html:13 templates/script.html:3
+#: templates/jar.html:16 templates/mjar.html:16 templates/mscript.html:15
+#: templates/script.html:15
 msgid "update"
 msgstr ""
 
-#: templates/jar.html:3
+#: templates/jar.html:16 templates/mjar.html:16
 msgid "app"
 msgstr ""
 
-#: templates/jar.html:5
+#: templates/jar.html:18 templates/mjar.html:25
 msgid "uploadJar"
 msgstr ""
 
-#: templates/login.html:21
+#: templates/jar.html:19 templates/mjar.html:26 templates/mscript.html:26
+#: templates/script.html:18
+msgid "upload"
+msgstr ""
+
+#: templates/login.html:22 templates/login.html:24
 msgid "username"
 msgstr ""
 
-#: templates/login.html:25
+#: templates/login.html:28 templates/login.html:30
 msgid "password"
 msgstr ""
 
-#: templates/login.html:30
+#: templates/login.html:35
 msgid "login"
 msgstr ""
 
-#: templates/mscript.html:13 templates/script.html:3
+#: templates/mscript.html:15 templates/script.html:15
 msgid "gameScripts"
 msgstr ""
 
-#: templates/mscript.html:23 templates/script.html:9
+#: templates/mscript.html:25 templates/script.html:20
 msgid "updateGameScriptsNotice"
-msgstr ""
-
-#: templates/questScriptGen.html:18
-msgid "generateQuestScriptsNotice"
 msgstr ""
 

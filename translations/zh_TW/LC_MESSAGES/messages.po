@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-09-05 18:12+0800\n"
+"POT-Creation-Date: 2012-09-24 11:16+0800\n"
 "PO-Revision-Date: 2012-08-28 09:30+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_TW <LL@li.org>\n"
@@ -17,83 +17,123 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: goss.py:298 goss.py:329 goss.py:367 goss.py:393 goss.py:409 goss.py:420
-#: goss.py:587
+#: goss.py:200 goss.py:221 goss.py:243 goss.py:262 goss.py:311 goss.py:322
+#: goss.py:333 goss.py:405 goss.py:495
 msgid "serverNotExist"
 msgstr "指定編號的應用服不存在"
 
-#: goss.py:553
+#: goss.py:210 goss.py:231 goss.py:251
+msgid "RPCCallFail"
+msgstr ""
+
+#: goss.py:380 goss.py:459
 msgid "atLeastOneGameServerRequired"
 msgstr "至少要選擇一個遊戲服"
 
-#: goss.py:557 goss.py:594
+#: goss.py:465 goss.py:502
 msgid "noFileUploaded"
 msgstr "未上傳任何文件"
 
-#: goss.py:601
-msgid "unSupportedFileType"
-msgstr "不支持的文件類型"
-
-#: goss.py:724
+#: goss.py:533
 msgid "noServerSelected"
 msgstr "未選擇任何遊戲服"
 
-#: goss.py:729
+#: goss.py:541
 msgid "illegalServerId"
 msgstr "錯誤的服務器編號"
 
-#: goss.py:743
-msgid "backupSuccess"
-msgstr "備份數據庫成功"
+#: goss.py:544
+#, fuzzy
+msgid "backupOrderSent"
+msgstr "備份文件列表"
+
+#: templates/agent.html:6 templates/backupDb.html:27
+#: templates/consoleWall.html:35 templates/index.html:6 templates/jar.html:7
+#: templates/mjar.html:7 templates/mscript.html:6 templates/script.html:6
+#, fuzzy
+msgid "consoleWall"
+msgstr "控制台日誌"
+
+#: templates/agent.html:7 templates/backupDb.html:28
+#: templates/consoleWall.html:36 templates/index.html:7
+#: templates/index.html:144 templates/index.html:151 templates/jar.html:8
+#: templates/mjar.html:8 templates/mscript.html:7 templates/script.html:7
+msgid "updateApp"
+msgstr "更新應用程序"
+
+#: templates/agent.html:8 templates/backupDb.html:29 templates/console.html:33
+#: templates/consoleWall.html:37 templates/index.html:8
+#: templates/index.html:145 templates/index.html:152 templates/jar.html:9
+#: templates/mjar.html:9 templates/mscript.html:8 templates/mscript.html:24
+#: templates/script.html:8 templates/script.html:17
+msgid "updateGameScripts"
+msgstr "更新遊戲腳本"
+
+#: templates/agent.html:9 templates/backupDb.html:30 templates/console.html:36
+#: templates/consoleWall.html:38 templates/index.html:9 templates/jar.html:10
+#: templates/mjar.html:10 templates/mscript.html:9 templates/script.html:9
+msgid "backupDatabase"
+msgstr "備份數據庫"
+
+#: templates/agent.html:10 templates/index.html:10
+msgid "agentStatus"
+msgstr ""
+
+#: templates/agent.html:30
+msgid "agent.ip"
+msgstr ""
+
+#: templates/agent.html:31
+msgid "agent.apps"
+msgstr ""
+
+#: templates/agent.html:32
+msgid "agent.load"
+msgstr ""
+
+#: templates/agent.html:33
+msgid "agent.lastUpdateTime"
+msgstr ""
+
+#: templates/agent.html:34
+msgid "agent.status"
+msgstr ""
+
+#: templates/agent.html:74
+msgid "agent.online"
+msgstr ""
+
+#: templates/agent.html:76
+msgid "agent.offline"
+msgstr ""
 
 #: templates/appServerCatChooser.html:4 templates/appServerCatChooser.html:12
 msgid "app.allcategory"
 msgstr ""
 
-#: templates/backupDb.html:7
+#: templates/backupDb.html:9
 msgid "backupDbNotice"
 msgstr "正在備份數據庫，請勿刷新該頁面...該操作耗時較長，請耐心等待..."
 
-#: templates/backupDb.html:35 templates/encryptScripts.html:7
-#: templates/index.html:6 templates/index.html:89 templates/index.html:96
-#: templates/mscript.html:6 templates/mscript.html:22
-#: templates/questScriptGen.html:7 templates/script.html:5
-msgid "updateGameScripts"
-msgstr "更新遊戲腳本"
-
-#: templates/backupDb.html:36 templates/encryptScripts.html:8
-#: templates/index.html:7 templates/mscript.html:7
-#: templates/questScriptGen.html:8 templates/questScriptGen.html:14
-msgid "generateQuestScripts"
-msgstr "生成任務腳本"
-
-#: templates/backupDb.html:37 templates/encryptScripts.html:9
-#: templates/encryptScripts.html:14 templates/index.html:8
-#: templates/mscript.html:8 templates/questScriptGen.html:9
-msgid "encryptScripts"
-msgstr "腳本加密"
-
-#: templates/backupDb.html:38 templates/encryptScripts.html:10
-#: templates/index.html:9 templates/mscript.html:9
-#: templates/questScriptGen.html:10
-msgid "backupDatabase"
-msgstr "備份數據庫"
-
-#: templates/backupDb.html:42
+#: templates/backupDb.html:35
 msgid "databaseBackup"
 msgstr "數據庫備份"
 
-#: templates/backupDb.html:49
+#: templates/backupDb.html:44
 msgid "backup"
 msgstr "備份數據庫"
 
-#: templates/backupDb.html:56
+#: templates/backupDb.html:50
+#, fuzzy
+msgid "backupQueue"
+msgstr "備份數據庫"
+
+#: templates/backupDb.html:92
 msgid "backupFileList"
 msgstr "備份文件列表"
 
-#: templates/base.html:4 templates/console.html:2 templates/denied.html:4
-#: templates/jar.html:2 templates/login.html:4 templates/login.html:14
-#: templates/script.html:2
+#: templates/base.html:4 templates/denied.html:4 templates/login.html:4
+#: templates/login.html:20
 msgid "siteTitle"
 msgstr "上古Ⅱ測試管理平台"
 
@@ -101,160 +141,175 @@ msgstr "上古Ⅱ測試管理平台"
 msgid "logout"
 msgstr "登出"
 
-#: templates/console.html:6
+#: templates/console.html:34
+msgid "generateQuestScripts"
+msgstr "生成任務腳本"
+
+#: templates/console.html:35
+msgid "encryptScripts"
+msgstr "腳本加密"
+
+#: templates/console.html:41
 msgid "consoleLog"
 msgstr "控制台日誌"
 
-#: templates/encryptScripts.html:16 templates/questScriptGen.html:16
-msgid "uploadGameScripts"
-msgstr "上傳遊戲腳本"
+#: templates/index.html:51
+msgid "operateConfirm"
+msgstr ""
 
-#: templates/encryptScripts.html:17 templates/jar.html:6
-#: templates/mscript.html:24 templates/questScriptGen.html:17
-#: templates/script.html:7
-msgid "upload"
-msgstr "上傳"
+#: templates/index.html:54
+msgid "vindicateConfirm"
+msgstr ""
 
-#: templates/index.html:17
+#: templates/index.html:68
 msgid "app.id"
 msgstr "編號"
 
-#: templates/index.html:18
+#: templates/index.html:69
 msgid "app.name"
 msgstr "名稱"
 
-#: templates/index.html:19
+#: templates/index.html:70
 #, fuzzy
 msgid "app.category"
 msgstr "操作"
 
-#: templates/index.html:20
+#: templates/index.html:71
+#, fuzzy
+msgid "app.host"
+msgstr "操作"
+
+#: templates/index.html:72
 msgid "app.type"
 msgstr "類型"
 
-#: templates/index.html:21
+#: templates/index.html:73
 msgid "app.runStatus"
 msgstr "運行狀態"
 
-#: templates/index.html:22
+#: templates/index.html:74
 msgid "app.errorStatus"
 msgstr "異常狀態"
 
-#: templates/index.html:23
+#: templates/index.html:75
 msgid "app.operate"
 msgstr "操作"
 
-#: templates/index.html:24
+#: templates/index.html:76
 msgid "app.config"
 msgstr "配置"
 
-#: templates/index.html:43
+#: templates/index.html:99
 msgid "gateServer"
 msgstr "網關服"
 
-#: templates/index.html:45
+#: templates/index.html:101
 msgid "loginServer"
 msgstr "登錄服"
 
-#: templates/index.html:47
+#: templates/index.html:103
 msgid "gameServer"
 msgstr "遊戲服"
 
-#: templates/index.html:49
+#: templates/index.html:105
 msgid "resourceServer"
 msgstr "資源服"
 
-#: templates/index.html:51
+#: templates/index.html:107
 msgid "unknownType"
 msgstr "未知類型"
 
-#: templates/index.html:72
+#: templates/index.html:128
 msgid "errorDetected"
 msgstr "檢測到異常"
 
-#: templates/index.html:74
+#: templates/index.html:130
 msgid "normal"
 msgstr "正常"
 
-#: templates/index.html:81 templates/index.html:84
+#: templates/index.html:137 templates/index.html:140
 msgid "startApp"
 msgstr "啟動應用"
 
-#: templates/index.html:85
+#: templates/index.html:141
 msgid "startVindicateApp"
 msgstr "啟動維護程序"
 
-#: templates/index.html:88 templates/index.html:95
-msgid "updateApp"
-msgstr "更新應用程序"
-
-#: templates/index.html:90 templates/index.html:97
+#: templates/index.html:146 templates/index.html:153
 msgid "viewConsole"
 msgstr "查看控制台"
 
-#: templates/index.html:93
+#: templates/index.html:149
 msgid "stopApp"
 msgstr "停止應用"
 
-#: templates/index.html:104
+#: templates/index.html:160
 msgid "normalConfig"
 msgstr "正常配置"
 
-#: templates/index.html:104
+#: templates/index.html:160
 msgid "switchToSyncConfig"
 msgstr "切換到同步配置"
 
-#: templates/index.html:106
+#: templates/index.html:162
 msgid "syncConfig"
 msgstr "同步配置"
 
-#: templates/index.html:106
+#: templates/index.html:162
 msgid "switchToNormalConfig"
 msgstr "切換到正常配置"
 
-#: templates/index.html:108
+#: templates/index.html:164
 msgid "mixConfig"
 msgstr "混合配置"
 
-#: templates/jar.html:3 templates/mscript.html:13 templates/script.html:3
+#: templates/jar.html:16 templates/mjar.html:16 templates/mscript.html:15
+#: templates/script.html:15
 msgid "update"
 msgstr "更新"
 
-#: templates/jar.html:3
+#: templates/jar.html:16 templates/mjar.html:16
 msgid "app"
 msgstr "主程序"
 
-#: templates/jar.html:5
+#: templates/jar.html:18 templates/mjar.html:25
 msgid "uploadJar"
 msgstr "上傳jar包"
 
-#: templates/login.html:21
+#: templates/jar.html:19 templates/mjar.html:26 templates/mscript.html:26
+#: templates/script.html:18
+msgid "upload"
+msgstr "上傳"
+
+#: templates/login.html:22 templates/login.html:24
 msgid "username"
 msgstr "用戶名"
 
-#: templates/login.html:25
+#: templates/login.html:28 templates/login.html:30
 msgid "password"
 msgstr "密碼"
 
-#: templates/login.html:30
+#: templates/login.html:35
 msgid "login"
 msgstr "登錄"
 
-#: templates/mscript.html:13 templates/script.html:3
+#: templates/mscript.html:15 templates/script.html:15
 msgid "gameScripts"
 msgstr "遊戲腳本"
 
-#: templates/mscript.html:23 templates/script.html:9
+#: templates/mscript.html:25 templates/script.html:20
 msgid "updateGameScriptsNotice"
 msgstr "單個文件請直接使用xls，多個文件請壓縮成7z包後再上傳，如有任務腳本變更，則請先生成任務腳本"
 
-#: templates/questScriptGen.html:18
-msgid "generateQuestScriptsNotice"
-msgstr "注意：腳本請以7z格式上傳，裡面不要有文件夾，且要包含宝箱和任务道具.xls、道具脚本.xls、NPC脚本.xls、地图脚本.xls、怪物脚本.xls和任务脚本.xls這些個腳本"
+#~ msgid "unSupportedFileType"
+#~ msgstr "不支持的文件類型"
 
-#~ msgid "guest"
-#~ msgstr "匿名用戶"
+#~ msgid "backupSuccess"
+#~ msgstr "備份數據庫成功"
 
-#~ msgid "chooseServersToUpdate"
-#~ msgstr "選擇需要更新的遊戲服"
+#~ msgid "uploadGameScripts"
+#~ msgstr "上傳遊戲腳本"
+
+#~ msgid "generateQuestScriptsNotice"
+#~ msgstr "注意：腳本請以7z格式上傳，裡面不要有文件夾，且要包含宝箱和任务道具.xls、道具脚本.xls、NPC脚本.xls、地图脚本.xls、怪物脚本.xls和任务脚本.xls這些個腳本"
 
