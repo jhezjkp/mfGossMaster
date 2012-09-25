@@ -33,7 +33,8 @@ rolePermissionMap = {}
 app = Flask(__name__)
 #配置secret才能使用session
 app.config.update(
-    SECRET_KEY='morefun_sg_manage'
+    #随机32位足够复杂的secret key
+    SECRET_KEY=os.urandom(32).encode('hex')
 )
 #装载认证扩展
 principals = Principal(app)
