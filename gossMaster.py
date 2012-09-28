@@ -79,7 +79,7 @@ class AppNode(object):
     def getLogContent(self):
         '''获取控制台日志内容'''
         try:
-            logContent = base64.b64decode(self.client.getConsoleLog(self.id)[1])
+            logContent = base64.b64decode(self.client.getConsoleLog(self.id)[1]).decode('utf-8', 'ignore')
         except socket.error:
             logContent = "RPC Call failed..."
             self.logger.error(socket.error)
