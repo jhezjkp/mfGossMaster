@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% set active_page = "console" %}
 
 {% block head %}
 <script type="text/javascript"> 
@@ -22,17 +23,6 @@ function getLogContent() {
 }
 $(getLogContent);
 </script>
-{% endblock %}
-
-{% block nav %}
-    <li><a href="/">Home</a></li>
-    {% include 'appServerCatChooser.html' %}
-    <li><a href="../consoleWall">{{_("consoleWall")}}</a></li>
-    <li><a href="../updateScripts">{{_("updateGameScripts")}}</a></li>
-    <li><a href="../questScriptGen">{{_("generateQuestScripts")}}</a></li>                     
-    <li><a href="../encryptScripts">{{_("encryptScripts")}}</a></li>
-    <li><a href="../backupDb">{{_("backupDatabase")}}</a></li>
-    <li><a href="../agentStatus">{{_("agentStatus")}}</a></li>
 {% endblock %}
 
 {% block main %}

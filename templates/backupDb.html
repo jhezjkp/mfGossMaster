@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% set active_page = "backupDb" %}
 
 {% block head %}
 <script type="text/javascript" src="{{url_for('static', filename='js/jquery.form.js')}}"></script>
@@ -19,16 +20,6 @@ function showResult(responseText, statusText, xhr, $form) {
 <style type="text/css">
     #backupList h2 {text-align: center;}
 </style>
-{% endblock %}
-
-{% block nav %}
-    <li><a href="/">Home</a></li>
-    {% include 'appServerCatChooser.html' %}
-    <li><a href="consoleWall">{{_("consoleWall")}}</a></li>
-    <li><a href="updateApps">{{_("updateApp")}}</a></li> 
-    <li><a href="updateScripts">{{_("updateGameScripts")}}</a></li>    
-    <li class="active"><a href="backupDb">{{_("backupDatabase")}}</a></li>
-    <li><a href="agentStatus">{{_("agentStatus")}}</a></li>
 {% endblock %}
 
 {% block main %}

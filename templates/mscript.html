@@ -1,14 +1,5 @@
 {% extends "base.html" %}
-
-{% block nav %}
-    <li><a href="/">Home</a></li>
-    {% include 'appServerCatChooser.html' %}
-    <li><a href="consoleWall">{{_("consoleWall")}}</a></li>
-    <li><a href="updateApps">{{_("updateApp")}}</a></li>    
-    <li class="active"><a href="updateScripts">{{_("updateGameScripts")}}</a></li> 
-    <li><a href="backupDb">{{_("backupDatabase")}}</a></li>
-    <li><a href="agentStatus">{{_("agentStatus")}}</a></li>
-{% endblock %}
+{% set active_page = "updateScripts" %}
 
 {% block main %}
     <div class="span8 offset2">

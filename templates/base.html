@@ -26,8 +26,29 @@
                 <a href="#" class="brand"></a>
                 <div class="nav-collapse">
                     <ul class="nav">
-                        {% block nav %}
-                        {% endblock %}
+                        {% set navigation_bar = [
+                            ('/', 'index', 'Home'),
+                            ('/consoleWall', 'consoleWall', 'consoleWall'),
+                            ('/updateApps', 'updateApps', 'updateApp'),
+                            ('/updateScripts', 'updateScripts', 'updateGameScripts'),
+                            ('/backupDb', 'backupDb', 'backupDatabase'),
+                            ('/agentStatus', 'agentStatus', 'agentStatus'),
+                            ]
+                        %}
+                        {#设置默认导航高亮页面为首页#}
+                        {% set active_page = active_page|default('index') %}
+
+                        {% for href, id, caption in navigation_bar %}
+                            {% if id == active_page %}
+                                <li class="active"><a href="{{href}}">{{_(caption)}}</a></li>
+                            {% else %}
+                                <li><a href="{{href}}">{{_(caption)}}</a></li>
+                            {% endif %}
+                            {% if id == 'index' %}
+                                {% include 'appServerCatChooser.html' %}
+                            {% endif %}
+
+                        {% endfor %}
                     </ul>    
                     <ul class="nav pull-right">
                         <li class="divider-vertical"></li>
