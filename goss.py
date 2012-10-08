@@ -290,15 +290,8 @@ def consoleWall():
 @view_console_permission.require()
 def ajaxConsoleWall():
     '''以json方式输出控制台日志'''
-    apps = {}
-    category = session.get('category', 0)
-    for app in master.appMap.values():
-        if category == 0:
-            apps[app.id] = app
-        elif category == app.category:
-            apps[app.id] = app
     logMap = {}
-    for app in apps.values():
+    for app in filterAppsByCategory().values():
         logMap[app.id] = app.getLogContent()
     return jsonify(logMap=logMap)
 
@@ -367,7 +360,7 @@ def parseAppUpdateResult(result):
 def updateMultyApps():
     '''更新多个应用程序'''
     if request.method == 'GET':
-        return render_template('mjar.html', gameServers=master.appMap.values())
+        return render_template('mjar.html', gameServers=filterAppsByCategory().values())
     else:
         f = request.files['jar']
         if not f:
@@ -451,7 +444,7 @@ def parseScriptUpdateResult(result):
 @update_script_permission.require(http_exception=403)
 def multyScriptUpdate():
     '''更新多个游戏服脚本'''
-    gameServers = [appServer for appServer in master.appMap.values() if appServer.type == SERVER_GAME]
+    gameServers = [appServer for appServer in filterAppsByCategory().values() if appServer.type == SERVER_GAME]
     if request.method == 'GET':
         return render_template('mscript.html', gameServers=gameServers)
     else:
@@ -524,7 +517,7 @@ def backupDatabase():
     if request.method == 'GET':
         backupMap = master.getDatabaseBackupMap()
         servers = []
-        for server in master.appMap.values():
+        for server in filterAppsByCategory().values():
             if server.type == SERVER_LOGIN or server.type == SERVER_GAME:
                 servers.append(server)
         return render_template('backupDb.html', appMap=master.appMap, servers=servers, backupMap=backupMap, queueMap=master.backupQueueMap)
@@ -542,6 +535,18 @@ def backupDatabase():
     batchId = datetime.datetime.now().strftime('db_%Y%m%d_%H%M%S')
     master.backupDatabase(batchId, idList)
     return jsonify(msg=_('backupOrderSent'))
+
+
+def filterAppsByCategory():
+    '''根据session中的分类来返回指定分类的应用'''
+    apps = {}
+    category = session.get('category', 0)
+    for app in master.appMap.values():
+        if category == 0:
+            apps[app.id] = app
+        elif category == app.category:
+            apps[app.id] = app
+    return apps
 
 
 def hashFile(filePath):
