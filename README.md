@@ -17,7 +17,7 @@ Goss Master is the master part of the Goss(Game Operation Support System), which
 
 You should have [virtualenv](http://www.virtualenv.org "virtualenv") and [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/index.html "virtualenvwrapper") installed on your system before you start.
 
-    $ git clone https://github.com/jhezjkp/mfGossMaster.git
+    $ git clone git://github.com/jhezjkp/mfGossMaster.git
     $ cd mfGossMaster
     $ mkvirtualenv mfGossMaster
     $ pip install -r requirements.txt
