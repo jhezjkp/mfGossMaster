@@ -26,15 +26,19 @@
 
 {% block main %}
     <!-- 显示错误日志的模态对话框 -->
-    <div class="modal hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-            <h3>Error Log</h3>
-        </div>
-        <div class="modal-body"></div>
-        <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        </div>
-    </div>
+    {% for id, gs in appServerMap.items() %}
+        {% if gs.error: %}
+        <div class="modal hide fade" id="myModal{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <h3>Error Log</h3>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
     <!-- 维护确认对话框 -->
     <div id="vindicateDlg" class="modal hide fade">
         <div class="modal-header">
@@ -116,7 +120,7 @@
                         <!-- 异常状态 -->
                         <td>
                             {% if gs.error: %}
-                            <a data-toggle="modal" data-target="#myModal" href="errorLog/{{gs.id}}">{{_("errorDetected")}}</a>
+                            <a data-toggle="modal" data-target="#myModal{{id}}" href="errorLog/{{gs.id}}">{{_("errorDetected")}}</a>
                             {% else: %}
                             {{_("normal")}}
                             {% endif %}
